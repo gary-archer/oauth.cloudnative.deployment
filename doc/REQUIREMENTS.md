@@ -1,0 +1,3 @@
+- Must use multi-node
+- Must use network policies
+- Must explain risks in areas such as scaling and IPs

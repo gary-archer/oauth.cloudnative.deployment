@@ -1,0 +1,44 @@
+VERSION 1
+---------
+1. Get dashboard working
+
+2. Deploy a POD with curl, openssl and jq
+
+3. Get certificates for mycluster.com created
+   Includes cluster issuer for internal certs
+
+4. Get APIs and webhost deploying, and update base images to latest
+   Remove cloud native deployment resources from code projects
+
+5. Update READMEs and make public
+
+VERSION 2
+---------
+1. Elastic base components
+
+2. Update Final APIs to use userID / method
+   Also the Express code in token handler
+
+3. Filebeat and schema updates for userID / method and in line with work
+   Use same techniques as work for pipeline
+   Update the logaggregation repo
+
+4. Update READMEs and make public
+
+CLOUD ELASTIC
+-------------
+1. Delete existing data
+   Update to latest Elastic version
+
+2. Update Serverless API and token handler serverless code to use userID / method
+
+3. Recreate the schema and pipelines, then redeploy
+   Ensure that live functionbeat config is backed up to Google drive
+
+CLOUD
+-----
+1. Feature switch to deploy Curity
+
+2. Use a reverse proxy and do cookie decryption there
+
+3. Optionally use phantom token plugin

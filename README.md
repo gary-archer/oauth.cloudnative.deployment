@@ -2,42 +2,60 @@
 
 Resources for deploying code samples to Kubernetes on a development computer.
 
-## Create the Cluster
+## Overall System
+
+URLs to go here
+
+## Prerequisites
+
+- brew install kind
+- Allocate resources in Docker Desktop
+- Ensure that openssl, curl and jq are installed
+
+## Deploy the System
+
+### Create the Cluster
 
 ```bash
 ./1-create-cluster.sh
 ```
 
-## Create Certificates
+### Create Certificates
 
 ```bash
 ./2-create-certs.sh
 ```
 
-## Configure Domains
+### Configure Domains
 
 TODO
 
-## Build Code
+### Build Code
 
 ```bash
 ./3-build.sh
 ```
 
-## Deploy the System
+### Deploy the System
 
 ```bash
 ./4-build.sh
 ```
 
-## Use the SPA
+## Use the System
+
+### Use the SPA
 
 TODO
 
-## Use the Mobile App
+### Use the Mobile App
 
 TODO
 
-## Use Elasticsearch Logs
+### Use the Desktop App
+
+TODO
+
+### Analyse Elasticsearch Logs
 
 TODO
