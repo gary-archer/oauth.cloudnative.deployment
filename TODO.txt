@@ -1,19 +1,25 @@
-VERSION 1
----------
-1. Get dashboard working
+Strategy: make progress on stuff I know how to do
 
-2. Deploy a POD with curl, openssl and jq
+VERSION 1 (APPS WORKING)
+------------------------
+1. Create internal root CA for cluster-issuer
 
-3. Get certificates for mycluster.com created
-   Includes cluster issuer for internal certs
+2. Get APIs running
 
-4. Get APIs and webhost deploying, and update base images to latest
-   Remove cloud native deployment resources from code projects
+3. Get web host running
 
-5. Update READMEs and make public
+4. Update READMEs
 
-VERSION 2
----------
+VERSION 2 (REVERSE PROXY)
+-------------------------
+1. Use Kong for cookie decryption
+
+2. Test SPA fully working
+
+3. Update READMEs and make public
+
+VERSION 3 (LOGGING)
+-------------------
 1. Elastic base components
 
 2. Update Final APIs to use userID / method
@@ -25,8 +31,8 @@ VERSION 2
 
 4. Update READMEs and make public
 
-CLOUD ELASTIC
--------------
+VERSION 4 (CLOUD ELASTIC)
+-------------------------
 1. Delete existing data
    Update to latest Elastic version
 
@@ -35,10 +41,18 @@ CLOUD ELASTIC
 3. Recreate the schema and pipelines, then redeploy
    Ensure that live functionbeat config is backed up to Google drive
 
-CLOUD
------
+VERSION 5
+---------
+1. Get dashboard deployed via Helm chart
+   Use Helm chart and expose at dashboard.mycluster.com
+
+2. Deploy a utils POD with curl, openssl and jq
+
+4. Get APIs and webhost deploying, and update base images to latest
+   Remove cloud native deployment resources from code projects
+
+VERSION 6
+---------
 1. Feature switch to deploy Curity
 
-2. Use a reverse proxy and do cookie decryption there
-
-3. Optionally use phantom token plugin
+2. Optionally use phantom token plugin

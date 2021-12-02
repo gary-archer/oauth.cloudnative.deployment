@@ -1,0 +1,89 @@
+#
+# The Kubernetes resources for our demo API
+#
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: demoapi-svc
+spec:
+  selector:
+    app: demoapi
+  ports:
+  - protocol: "TCP"
+    port: 8101
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demoapi
+  labels:
+    app: demoapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demoapi
+  template:
+    metadata:
+      labels:
+        app: demoapi
+    spec:
+      containers:
+      - name: demoapi
+        image: demoapi:v1
+        imagePullPolicy: Never
+        volumeMounts:
+          - mountPath: /usr/api/certs
+            name: ssl-cert
+            readOnly: true
+      volumes:
+        - name: ssl-cert
+          secret:
+            secretName: demoapi-svc-internal-cert
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: demoapi-svc-internal-cert
+spec:
+  secretName: demoapi-svc-internal-cert
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer
+  commonName: demoapi-svc.default.svc
+  dnsNames:
+  - demoapi-svc
+  - demoapi-svc.default.svc
+  - demoapi-svc.default.svc.cluster.local
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: demoapi-pkcs12-password
+        key: password
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demoapi-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ingress.class: 'nginx'
+    nginx.ingress.kubernetes.io/secure-backends: 'true'
+    nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
+spec:
+  tls:
+    - hosts:
+        - api.mycluster.com
+      secretName: mycluster-com-tls
+  rules:
+    - host: api.mycluster.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demoapi-svc
+                port:
+                  number: 8101

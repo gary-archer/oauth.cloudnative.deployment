@@ -7,7 +7,7 @@
 #
 # Create the cluster
 #
-kind create cluster --config base/cluster.yml
+kind create cluster --config base/cluster.yaml
 if [ $? -ne 0 ];
 then
   echo 'Problem encountered creating the Kubernetes cluster'
@@ -17,23 +17,16 @@ fi
 #
 # Create a namespace for our apps
 #
-kubectl apply -f base/namespace.yml
+kubectl apply -f base/namespace.yaml
 if [ $? -ne 0 ];
 then
   echo 'Problem encountered creating the Kubernetes namespace'
   exit 1
 fi
 
-
 #
 # Deploy troubleshooting utilities
 #
-kubectl apply -f base/dnsutils.yml
-if [ $? -ne 0 ];
-then
-  echo 'Problem encountered deploying utilities'
-  exit 1
-fi
 
 #
 # Tear down the cluster if required
