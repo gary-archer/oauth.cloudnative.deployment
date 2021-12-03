@@ -1,3 +1,6 @@
+Move notes to a Google doc
+--------------------------
+
 # Using the utility pod:
 
 FIRST_POD=$(kubectl get pods -l app=network-multitool -o=name -n deployed | head -1)
@@ -21,3 +24,8 @@ https://iximiuz.com/en/posts/kubernetes-kind-load-docker-image/
 # Restarts
 https://github.com/kubernetes-sigs/kind/issues/148
 docker start kind-1-control-plane && docker exec kind-1-control-plane sh -c 'mount -o remount,ro /sys; kill -USR1 1'
+
+# Troubleshooting
+
+kubectl describe pod/xxx -n deployed
+kubectl get events -n deployed

@@ -34,7 +34,7 @@ fi
 #
 # Create a config map for the API's JSON configuration file
 #
-kubectl -n deployed delete configmap api-config
+kubectl -n deployed delete configmap api-config 2>/dev/null
 kubectl -n deployed create configmap api-config --from-file=api.config.json
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the API config map'
@@ -52,7 +52,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create API resources to deploy it and expose it via ingress
+# Trigger deployment of the API to the Kubernetes cluster
 #
 kubectl -n deployed delete -f api.yaml 2>/dev/null
 kubectl -n deployed apply  -f api.yaml

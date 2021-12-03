@@ -1,12 +1,12 @@
 {
     "api": {
-        "port": 445,
+        "port": 8101,
         "sslCertificateFileName": "./certs/keystore.p12",
         "sslCertificatePassword": "Password1",
         "useProxy": false,
-        "proxyUrl": "http://127.0.0.1:8888",
+        "proxyUrl": "",
         "webTrustedOrigins": [
-            "https://web.mycompany.com"
+            "https://web.mycluster.com"
         ]
     },
     "logging": {
@@ -17,14 +17,7 @@
             "appenders": [
                 {
                     "type": "console",
-                    "prettyPrint": true
-                },
-                {
-                    "type": "file",
-                    "filePrefix": "api",
-                    "dirname": "./logs",
-                    "totalLogSizeMB": "1024",
-                    "maxFiles": "100"
+                    "prettyPrint": false
                 }
             ]
         },

@@ -1,20 +1,20 @@
+MINOR
+-----
+1. See if pod actually gets deployed to control plane or it that is just a misleading message
+
 VERSION 1
 ---------
-1. Get APIs running inside the cluster
+1. Fix APIs:
+- Node.js compile
+- NET API to single file EXE
 
-2. Get Web Host running inside the cluster
+2. Update READMEs
 
-3. Fix Node.js problems
+3. Use Kong for API routing with cookie decryption
 
-4. Update READMEs
+4. Test SPA fully working
 
-5. NET API to single file EXE
-
-6. Use Kong for API routing with cookie decryption
-
-7. Test SPA fully working
-
-8. Update READMEs and make public
+5. Update READMEs and make public
 
 VERSION 2 (LOGGING)
 -------------------

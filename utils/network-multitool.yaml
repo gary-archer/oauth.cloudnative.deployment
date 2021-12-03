@@ -1,8 +1,11 @@
+#
+# Use the pod from https://github.com/Praqma/Network-MultiTool
+#
+
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: network-multitool
-  namespace: deployed
   labels:
     tier: node
     app: network-multitool

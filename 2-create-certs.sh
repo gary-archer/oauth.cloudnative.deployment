@@ -21,8 +21,8 @@ fi
 #
 # Create a secret for external URLs
 #
-kubectl delete secret mycluster-com-tls 2>/dev/null
-kubectl create secret tls mycluster-com-tls --cert=./mycluster.ssl.pem --key=./mycluster.ssl.key
+kubectl -n deployed delete secret mycluster-com-tls 2>/dev/null
+kubectl -n deployed create secret tls mycluster-com-tls --cert=./mycluster.ssl.pem --key=./mycluster.ssl.key
 if [ $? -ne 0 ]; then
   echo '*** Problem creating ingress SSL wildcard secret'
   exit 1
@@ -50,10 +50,10 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Deploy a secret for the root CA
+# Deploy a secret for the internal root CA
 #
-kubectl delete secret default-svc-cluster-local 2>/dev/null
-kubectl create secret tls default-svc-cluster-local --cert=./default.svc.cluster.local.ca.pem --key=./default.svc.cluster.local.ca.key
+kubectl -n deployed delete secret default-svc-cluster-local 2>/dev/null
+kubectl -n deployed create secret tls default-svc-cluster-local --cert=./default.svc.cluster.local.ca.pem --key=./default.svc.cluster.local.ca.key
 if [ $? -ne 0 ]; then
   echo '*** Problem creating secret for internal SSL Root Authority ***'
   exit 1
@@ -62,7 +62,7 @@ fi
 #
 # Create the cluster issuer
 #
-kubectl apply -f ./clusterIssuer.yaml
+kubectl -n deployed apply -f ./clusterIssuer.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem creating the cluster issuer'
   exit 1

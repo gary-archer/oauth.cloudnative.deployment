@@ -40,10 +40,9 @@ fi
 
 #
 # Deploy a utility POD for troubleshooting
-# https://github.com/Praqma/Network-MultiTool
 #
 cd utils
-kubectl apply -f network-multitool.yaml
+kubectl -n deployed apply -f network-multitool.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered deploying troubleshooting tools'
   exit 1
@@ -52,10 +51,10 @@ fi
 #
 # Wait for the pod to reach a ready state
 #
-kubectl rollout status daemonset/network-multitool -n deployed
+kubectl -n deployed rollout status daemonset/network-multitool
 
 #
 # Indicate success, and show the nodes with utility pods
 #
-kubectl get pods -n deployed -o wide
+kubectl -n deployed get pods -o wide
 echo 'Cluster was created successfully'

@@ -25,15 +25,15 @@ spec:
         image: finalapi:v1
         imagePullPolicy: Never
         volumeMounts:
-          - name: config
-            mountPath: /usr/api
+          - name: api-config
+            mountPath: /usr/api/api.config.json
             subPath: api.config.json
             readOnly: true
           - name: ssl-cert
             mountPath: /usr/api/certs
             readOnly: true
       volumes:
-        - name: config
+        - name: api-config
           configMap:
             name: api-config
         - name: ssl-cert

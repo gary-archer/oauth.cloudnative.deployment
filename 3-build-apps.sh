@@ -14,7 +14,6 @@ API_TECH='java'
 if [ $? -ne 0 ]; then
   exit 1
 fi
-exit
 
 #
 # Build the API

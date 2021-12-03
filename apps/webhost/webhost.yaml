@@ -25,21 +25,21 @@ spec:
         image: webhost:v1
         imagePullPolicy: Never
         volumeMounts:
-          - name: host-config
-            mountPath: /usr/webhost
+          - name: webhost-config
+            mountPath: /usr/webhost/host.config.json
             subPath: host.config.json
             readOnly: true
           - name: spa-config
-            mountPath: /usr/webhost
+            mountPath: /usr/webhost/spa.config.json
             subPath: spa.config.json
             readOnly: true
           - name: ssl-cert
             mountPath: /usr/webhost/certs
             readOnly: true
       volumes:
-        - name: host-config
+        - name: webhost-config
           configMap:
-            name: host-config
+            name: webhost-config
         - name: spa-config
           configMap:
             name: spa-config
@@ -57,3 +57,24 @@ spec:
   ports:
   - protocol: "TCP"
     port: 8102
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: webhost-cert
+spec:
+  secretName: webhost-pkcs12-password
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer
+  commonName: webhost-svc.default.svc
+  dnsNames:
+  - webhost-svc
+  - webhost-svc.default.svc
+  - webhost-svc.default.svc.cluster.local
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: webhost-pkcs12-password
+        key: password
