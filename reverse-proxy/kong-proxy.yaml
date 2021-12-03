@@ -38,8 +38,6 @@ spec:
       labels:
         app: kong-proxy
     spec:
-      nodeSelector:
-        role: worker
       containers:
       - name: kong-proxy
         image: kong:2.6.0-alpine

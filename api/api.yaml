@@ -38,12 +38,9 @@ spec:
       labels:
         app: finalapi
     spec:
-      nodeSelector:
-        role: worker
       containers:
       - name: finalapi
-        image: finalapi:v1
-        imagePullPolicy: Never
+        image: localhost:5000/finalapi
         volumeMounts:
           - name: api-config
             mountPath: /usr/api/api.config.json

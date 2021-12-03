@@ -43,13 +43,6 @@ if [ "$API_TECH" == 'nodejs' ]; then
     echo '*** Node API build problem encountered'
     exit 1
   fi
-
-  cp ../../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
-  docker build --no-cache -f Dockerfile -t finalapi:v1 .
-  if [ $? -ne 0 ]; then
-    echo '*** Node API docker build problem encountered'
-    exit 1
-  fi
 fi
 
 #
@@ -67,13 +60,6 @@ if [ "$API_TECH" == 'netcore' ]; then
   dotnet publish sampleapi.csproj -c Release -r linux-x64 --no-self-contained
   if [ $? -ne 0 ]; then
     echo '*** .NET API build problem encountered'
-    exit 1
-  fi
-
-  cp ../../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
-  docker build --no-cache -f Dockerfile -t finalapi:v1 .
-  if [ $? -ne 0 ]; then
-    echo "*** .NET API docker build problem encountered"
     exit 1
   fi
 fi
@@ -95,21 +81,24 @@ if [ "$API_TECH" == 'java' ]; then
     echo '*** Java API build problem encountered'
     exit 1
   fi
-
-  cp ../../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
-  docker build --no-cache -f Dockerfile -t finalapi:v1 .
-  if [ $? -ne 0 ]; then
-    echo '*** Java API docker build problem encountered'
-    exit 1
-  fi
 fi
 
 #
-# Load the image into Kubernetes in Docker
+# Build the Docker container
 #
-kind load docker-image finalapi:v1 --name oauth
+cp ../../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
+docker build --no-cache -f Dockerfile -t finalapi:v1 .
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered loading the API docker image into KIND'
+  echo '*** API docker build problem encountered'
   exit 1
 fi
 
+#
+# Push the Docker image
+#
+docker tag finalapi:v1 localhost:5000/finalapi
+docker push localhost:5000/finalapi
+if [ $? -ne 0 ]; then
+  echo '*** API Docker push problem encountered'
+  exit 1
+fi

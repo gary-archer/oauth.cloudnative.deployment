@@ -38,12 +38,9 @@ spec:
       labels:
         app: webhost
     spec:
-      nodeSelector:
-        role: worker
       containers:
       - name: webhost
-        image: webhost:v1
-        imagePullPolicy: Never
+        image: localhost:5000/webhost
         volumeMounts:
           - name: webhost-config
             mountPath: /usr/webhost/host.config.json

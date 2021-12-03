@@ -1,7 +1,3 @@
-Cluster info:
-
-- kubectl cluster-info --context kind-kind
-
 View nodes:
 
 - kubectl get nodes -o wide

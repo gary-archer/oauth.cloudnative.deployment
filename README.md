@@ -8,8 +8,7 @@ URLs to go here
 
 ## Prerequisites
 
-- brew install kind
-- Allocate resources in Docker Desktop
+- brew install minikube
 - Ensure that openssl, curl and jq are installed
 
 ## Deploy the System

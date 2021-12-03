@@ -1,8 +1,8 @@
 #!/bin/bash
 
-##################################################################################################
-# Base setup for a KIND cluster with 2 virtual machines (nodes), after running 'brew install kind'
-##################################################################################################
+#################################################################################################
+# Base setup for a cluster with 2 virtual machines (nodes), after running 'brew install minikube'
+#################################################################################################
 
 #
 # Ensure that we are in the folder containing this script
@@ -12,22 +12,12 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # Tear down the cluster if it exists already
 #
-kind delete cluster --name 'oauth' 2>/dev/null
-
-#
-# Create the cluster
-#
-kind create cluster --config base/cluster.yaml
+minikube delete --profile oauth 2>/dev/null
+minikube start --nodes 2 --cpus=4 --memory=16384 --disk-size=50g --driver=hyperkit --profile oauth
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Kubernetes cluster'
   exit 1
 fi
-
-#
-# Apply labels which we'll later use to prevent deploying components to control plane nodes
-#
-kubectl label nodes oauth-worker  role=worker
-kubectl label nodes oauth-worker2 role=worker
 
 #
 # Create a 'deployed' namespace for our apps
@@ -39,42 +29,27 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Deploy the NGINX ingress, which will create PODs in an ingress-nginx namespace
+# Ensure that components can be exposed from the cluster over port 443 to the developer machine
 #
-#kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
-#if [ $? -ne 0 ]; then
-#  echo '*** Problem encountered creating the Kubernetes namespace'
-#  exit 1
-#fi
-
-#
-# Wait for it to come up
-#
-#kubectl wait --namespace ingress-nginx \
-#--for=condition=ready pod \
-#--selector=app.kubernetes.io/component=controller \
-#--timeout=90s
-
-#
-# When using self signed certificates in development environments we must run this
-#
-#kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
-
-#
-# Deploy the MetalLB software load balancer in the metallb-system namespace
-#
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
-kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
-kkubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
+minikube addons enable ingress --profile oauth
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered deploying software load balancer'
+  echo "*** Problem encountered enabling the ingress addon for the cluster"
   exit 1
 fi
 
 #
-# Get details for the local Docker kind network
+# When using self signed certificates in development environments we must run this
 #
-#docker network inspect kind -f '{{.IPAM.config}}'
+kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+
+#
+# Enable the use of local registries
+#
+minikube addons enable registry
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered enabling the minikube registry addon'
+  exit 1
+fi
 
 #
 # Deploy a utility POD for troubleshooting

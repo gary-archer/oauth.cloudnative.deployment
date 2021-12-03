@@ -59,11 +59,11 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Load the image into Kubernetes in Docker
+# Push the Docker image
 #
-kind load docker-image webhost:v1 --name oauth
+docker tag webhost:v1 localhost:5000/webhost
+docker push localhost:5000/webhost
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered loading the Web Host docker image into KIND'
+  echo '*** Web Host Docker push problem encountered'
   exit 1
 fi
-

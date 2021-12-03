@@ -1,22 +1,14 @@
-MINOR
------
-1. See if pods actually get deployed to control plane or it that is just a misleading message
-
-This looks the type of thing, but what I want is not supported yet.
-https://www.thehumblelab.com/kind-and-metallb-on-mac/
+Currently.
+Trying to use a local registry for Docker images:
+https://docs.docker.com/registry/deploying/
 
 VERSION 1
 ---------
-1. Fix APIs:
-- NET API to single file EXE
+1. Use Kong for API routing with cookie decryption
 
-2. Update READMEs
+2. Test SPA fully working
 
-3. Use Kong for API routing with cookie decryption
-
-4. Test SPA fully working
-
-5. Update READMEs and make public
+3. Update READMEs and make public
 
 VERSION 2 (LOGGING)
 -------------------

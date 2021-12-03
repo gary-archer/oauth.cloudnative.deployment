@@ -9,7 +9,6 @@
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-#
 # First run the script to create certificates for external URLs
 #
 cd certs

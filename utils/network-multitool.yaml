@@ -21,8 +21,6 @@ spec:
         app: network-multitool
     spec:
       hostNetwork: true
-      nodeSelector:
-        role: worker
       tolerations:
       - operator: Exists
         effect: NoSchedule
