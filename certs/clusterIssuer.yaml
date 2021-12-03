@@ -9,4 +9,4 @@ metadata:
   name: ca-issuer
 spec:
   ca:
-    secretName: svc-default-cluster-local
+    secretName: default-svc-cluster-local

@@ -1,0 +1,5 @@
+# Using the utility pod:
+
+FIRST_POD=$(kubectl get pods -l app=network-multitool -o=name -n deployed | head -1)
+kubectl -n deployed exec -it $FIRST_POD -- bash
+curl http://localhost:1180

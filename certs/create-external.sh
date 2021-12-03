@@ -5,6 +5,11 @@
 #######################################################################################
 
 #
+# Ensure that we are in the folder containing this script
+#
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+#
 # Point to the OpenSSL configuration file for the platform
 #
 case "$(uname -s)" in
@@ -38,9 +43,8 @@ WILDCARD_DOMAIN_NAME='*.mycluster.com'
 # Create the root certificate public + private key protected by a passphrase
 #
 openssl genrsa -out $ROOT_CERT_FILE_PREFIX.key 2048
-if [ $? -ne 0 ];
-then
-  echo 'Problem encountered creating the Root CA key'
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the external Root CA key'
   exit 1
 fi
 
@@ -58,9 +62,8 @@ openssl req \
     -extensions v3_ca \
     -sha256 \
     -days 3650
-if [ $? -ne 0 ];
-then
-  echo 'Problem encountered creating the Root CA'
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the external Root CA'
   exit 1
 fi
 
@@ -68,9 +71,8 @@ fi
 # Create the SSL key
 #
 openssl genrsa -out $SSL_CERT_FILE_PREFIX.key 2048
-if [ $? -ne 0 ];
-then
-  echo 'Problem encountered creating the SSL key'
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the external SSL key'
   exit 1
 fi
 
@@ -82,9 +84,8 @@ openssl req \
     -key $SSL_CERT_FILE_PREFIX.key \
     -out $SSL_CERT_FILE_PREFIX.csr \
     -subj "/CN=$WILDCARD_DOMAIN_NAME"
-if [ $? -ne 0 ];
-then
-  echo 'Problem encountered creating the SSL certificate signing request'
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the external SSL certificate signing request'
   exit 1
 fi
 
@@ -100,9 +101,8 @@ openssl x509 -req \
     -sha256 \
     -days 365 \
     -extfile server.ext
-if [ $? -ne 0 ];
-then
-  echo 'Problem encountered creating the SSL certificate'
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the external SSL certificate'
   exit 1
 fi
 
@@ -115,9 +115,8 @@ openssl pkcs12 \
     -name $WILDCARD_DOMAIN_NAME \
     -out $SSL_CERT_FILE_PREFIX.p12 \
     -passout pass:$SSL_CERT_PASSWORD
-if [ $? -ne 0 ];
-then
-  echo 'Problem encountered creating the PKCS#12 file'
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the external PKCS#12 file'
   exit 1
 fi
 
