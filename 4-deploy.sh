@@ -4,12 +4,12 @@
 # This deploys Docker containers into the Kubernetes cluster
 ############################################################
 
-API_TECH='java'
+API_TECH='nodejs'
 
 #
 # Deploy the web host
 #
-./apps/webhost/deploy.sh
+./webhost/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -17,10 +17,15 @@ fi
 #
 # Deploy the API
 #
-./apps/api/deploy.sh "$API_TECH"
+./api/deploy.sh "$API_TECH"
 if [ $? -ne 0 ]; then
   exit 1
 fi
+
+#
+# Deploy the reverse proxy
+#
+./reverse-proxy/deploy.sh
 
 #
 # Indicate success

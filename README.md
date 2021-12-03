@@ -20,7 +20,7 @@ URLs to go here
 ./1-create-cluster.sh
 ```
 
-### Create Certificates
+### Create SSL Certificates
 
 ```bash
 ./2-create-certs.sh
@@ -30,16 +30,16 @@ URLs to go here
 
 TODO
 
-### Build Code
+### Build Application Code
 
 ```bash
-./3-build.sh
+./3-build-apps.sh
 ```
 
 ### Deploy the System
 
 ```bash
-./4-build.sh
+./4-deploy.sh
 ```
 
 ## Use the System

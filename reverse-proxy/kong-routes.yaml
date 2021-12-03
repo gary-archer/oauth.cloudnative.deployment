@@ -1,0 +1,13 @@
+_format_version: '2.1'
+_transform: true
+
+services:
+#
+# The API is available outside the cluster at https://api.mycluster.com/api
+#
+- name: finalapi
+  url: https://finalapi-svc:8101/api
+  routes:
+  - name: finalapi-route
+    paths:
+    - /api

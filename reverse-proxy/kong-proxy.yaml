@@ -1,0 +1,114 @@
+#
+# The Kubernetes resources for our Reverse Proxy, which runs on port 8100
+#
+kind: Certificate
+apiVersion: cert-manager.io/v1
+metadata:
+  name: kong-cert
+spec:
+  secretName: kong-pkcs12-password
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer
+  commonName: kong-proxy-svc.default.svc
+  dnsNames:
+  - kong-proxy-svc
+  - kong-proxy-svc.default.svc
+  - kong-proxy-svc.default.svc.cluster.local
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: kong-pkcs12-password
+        key: password
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: kong-proxy
+  labels:
+    app: kong-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kong-proxy
+  template:
+    metadata:
+      labels:
+        app: kong-proxy
+    spec:
+      nodeSelector:
+        role: worker
+      containers:
+      - name: kong-proxy
+        image: kong:2.6.0-alpine
+        env:
+        - name: KONG_DATABASE
+          value: 'off'
+        - name: KONG_DECLARATIVE_CONFIG
+          value: '0.0.0.0:8000 ssl'
+        - name: KONG_SSL_CERT_KEY
+          value: '/usr/local/share/certs/tls.key'
+        - name: KONG_SSL_CERT
+          value: '/usr/local/share/certs/tls.pem'
+        - name: KONG_SSL_TRUSTED_CERTIFICATE
+          value: '/usr/local/share/certs/trusted.ca.pem'
+        - name: KONG_LUA_SSL_TRUSTED_CERTIFICATE
+          value: '/usr/local/share/certs/trusted.ca.pem'
+        - name: KONG_LOG_LEVEL
+          value: 'info'
+        - name: KONG_PLUGINS
+          value: 'bundled'
+        volumeMounts:
+          - name: kong-config
+            mountPath: /usr/local/kong/declarative/kong-routes.yaml
+            subPath: kong-routes.yaml
+            readOnly: true
+          - name: trusted-ca
+            mountPath: /usr/local/share/certs/trusted.ca.pem
+            subPath: trusted.ca.pem
+            readOnly: true
+      volumes:
+        - name: kong-config
+          configMap:
+            name: kong-config
+        - name: trusted-ca
+          configMap:
+            name: internal-root-ca
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: kong-proxy-svc
+spec:
+  selector:
+    app: kong-proxy
+  ports:
+  - protocol: "TCP"
+    port: 8100
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: kong-proxy-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ingress.class: 'nginx'
+    nginx.ingress.kubernetes.io/secure-backends: 'true'
+    nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
+spec:
+  tls:
+    - hosts:
+        - api.mycluster.com
+      secretName: mycluster-com-tls
+  rules:
+    - host: api.mycluster.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kong-proxy-svc
+                port:
+                  number: 8100

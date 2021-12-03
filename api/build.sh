@@ -21,7 +21,7 @@ fi
 #
 # Prepare folders
 #
-cd ../..
+cd ..
 mkdir -p resources
 rm -rf resources/finalapi
 

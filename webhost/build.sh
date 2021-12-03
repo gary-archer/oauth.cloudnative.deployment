@@ -12,7 +12,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # Prepare folders
 #
-cd ../..
+cd ..
 mkdir -p resources
 rm -rf resources/finalweb
 

@@ -1,7 +1,27 @@
 #
-# The Kubernetes resources for our final api
+# The Kubernetes resources for our final API, which runs on port 8101
 #
-
+kind: Certificate
+apiVersion: cert-manager.io/v1
+metadata:
+  name: finalapi-cert
+spec:
+  secretName: finalapi-pkcs12-password
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer
+  commonName: finalapi-svc.default.svc
+  dnsNames:
+  - finalapi-svc
+  - finalapi-svc.default.svc
+  - finalapi-svc.default.svc.cluster.local
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: finalapi-pkcs12-password
+        key: password
+---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -50,24 +70,3 @@ spec:
   ports:
   - protocol: "TCP"
     port: 8101
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: finalapi-cert
-spec:
-  secretName: finalapi-pkcs12-password
-  issuerRef:
-    name: ca-issuer
-    kind: Issuer
-  commonName: finalapi-svc.default.svc
-  dnsNames:
-  - finalapi-svc
-  - finalapi-svc.default.svc
-  - finalapi-svc.default.svc.cluster.local
-  keystores:
-    pkcs12:
-      create: true
-      passwordSecretRef:
-        name: finalapi-pkcs12-password
-        key: password

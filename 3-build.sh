@@ -2,10 +2,9 @@
 
 #############################################################
 # This builds code into Docker containers ready for deploying
-# First ensure that Java 13+ and Maven are installed
 #############################################################
 
-API_TECH='java'
+API_TECH='nodejs'
 
 #
 # Build the web host

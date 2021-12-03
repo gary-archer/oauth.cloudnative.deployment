@@ -1,10 +1,8 @@
-
-
 #!/bin/bash
 
-###################################################
-# Deploy the API and expose it to the host computer
-###################################################
+#######################################################
+# Deploy the web host and expose it outside the cluster
+#######################################################
 
 #
 # Ensure that we are in the folder containing this script
@@ -12,22 +10,22 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Create a config map for the SPA's JSON configuration file
+# Create a configmap for the SPA's JSON configuration file
 #
 kubectl -n deployed delete configmap spa-config 2>/dev/null
 kubectl -n deployed create configmap spa-config --from-file=spa.config.json
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the SPA config map'
+  echo '*** Problem encountered creating the SPA configmap'
   exit 1
 fi
 
 #
-# Create a config map for the Web Host's JSON configuration file
+# Create a configmap for the Web Host's JSON configuration file
 #
 kubectl -n deployed delete configmap webhost-config 2>/dev/null
 kubectl -n deployed create configmap webhost-config --from-file=host.config.json
 if [ $? -ne 0 ]; then
-  echo '*** Problem encountered creating the Web Host config map'
+  echo '*** Problem encountered creating the Web Host configmap'
   exit 1
 fi
 
