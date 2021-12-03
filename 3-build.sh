@@ -9,7 +9,7 @@ API_TECH='nodejs'
 #
 # Build the web host
 #
-./apps/webhost/build.sh
+./webhost/build.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -17,7 +17,7 @@ fi
 #
 # Build the API
 #
-./apps/api/build.sh "$API_TECH"
+./api/build.sh "$API_TECH"
 if [ $? -ne 0 ]; then
   exit 1
 fi

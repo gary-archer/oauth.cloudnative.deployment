@@ -1,6 +1,9 @@
 MINOR
 -----
-1. See if pod actually gets deployed to control plane or it that is just a misleading message
+1. See if pods actually get deployed to control plane or it that is just a misleading message
+
+This looks the type of thing, but what I want is not supported yet.
+https://www.thehumblelab.com/kind-and-metallb-on-mac/
 
 VERSION 1
 ---------

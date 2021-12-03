@@ -64,7 +64,7 @@ if [ "$API_TECH" == 'netcore' ]; then
   fi
 
   cd resources/finalapi
-  dotnet publish sampleapi.csproj -c Release -r linux-x64
+  dotnet publish sampleapi.csproj -c Release -r linux-x64 --no-self-contained
   if [ $? -ne 0 ]; then
     echo '*** .NET API build problem encountered'
     exit 1

@@ -47,6 +47,8 @@ spec:
         - name: KONG_DATABASE
           value: 'off'
         - name: KONG_DECLARATIVE_CONFIG
+          value: '/usr/local/kong/declarative/kong-routes.yml'
+        - name: KONG_PROXY_LISTEN
           value: '0.0.0.0:8000 ssl'
         - name: KONG_SSL_CERT_KEY
           value: '/usr/local/share/certs/tls.key'

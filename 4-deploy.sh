@@ -26,6 +26,9 @@ fi
 # Deploy the reverse proxy
 #
 ./reverse-proxy/deploy.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 
 #
 # Indicate success

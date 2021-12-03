@@ -1,6 +1,6 @@
 {
     "host": {
-        "port": 8102,
+        "port": 8101,
         "sslCertificateFileName": "./certs/keystore.p12",
         "sslCertificatePassword": "Password1",
         "mode": "production"
