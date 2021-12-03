@@ -2,3 +2,4 @@
 certs/mycluster*
 certs/default*
 resources
+apps/api/api.config.json

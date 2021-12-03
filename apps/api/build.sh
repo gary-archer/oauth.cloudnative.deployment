@@ -31,20 +31,22 @@ rm -rf resources/finalapi
 if [ "$API_TECH" == 'nodejs' ]; then
   
   git clone https://github.com/gary-archer/oauth.apisample.nodejs resources/finalapi
+  if [ $? -ne 0 ]; then
+    echo '*** Node API download problem encountered'
+    exit 1
+  fi
   
   cd resources/finalapi
   npm install
   npm run buildRelease
-  if [ $? -ne 0 ];
-  then
+  if [ $? -ne 0 ]; then
     echo '*** Node API build problem encountered'
     exit 1
   fi
 
   cp ../../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
   docker build --no-cache -f Dockerfile -t finalapi:v1 .
-  if [ $? -ne 0 ];
-  then
+  if [ $? -ne 0 ]; then
     echo '*** Node API docker build problem encountered'
     exit 1
   fi
@@ -56,9 +58,12 @@ fi
 if [ "$API_TECH" == 'netcore' ]; then
 
   git clone https://github.com/gary-archer/oauth.apisample.netcore resources/finalapi
+  if [ $? -ne 0 ]; then
+    echo '*** .NET API download problem encountered'
+    exit 1
+  fi
 
   cd resources/finalapi
-  dotnet clean sampleapi.csproj
   dotnet publish sampleapi.csproj -c Release -r linux-x64
   if [ $? -ne 0 ]; then
     echo '*** .NET API build problem encountered'
@@ -79,20 +84,32 @@ fi
 if [ "$API_TECH" == 'java' ]; then
 
   git clone https://github.com/gary-archer/oauth.apisample.javaspringboot resources/finalapi
+  if [ $? -ne 0 ]; then
+    echo '*** Java API download problem encountered'
+    exit 1
+  fi
 
   cd resources/finalapi
   mvn clean install
-  if [ $? -ne 0 ];
-  then
+  if [ $? -ne 0 ]; then
     echo '*** Java API build problem encountered'
     exit 1
   fi
 
   cp ../../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
   docker build --no-cache -f Dockerfile -t finalapi:v1 .
-  if [ $? -ne 0 ];
-  then
+  if [ $? -ne 0 ]; then
     echo '*** Java API docker build problem encountered'
     exit 1
   fi
 fi
+
+#
+# Load the image into Kubernetes in Docker
+#
+kind load docker-image finalapi:v1 --name oauth
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered loading the API docker image into KIND'
+  exit 1
+fi
+

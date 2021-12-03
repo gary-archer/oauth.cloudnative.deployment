@@ -24,7 +24,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Apply labels to nodes
+# Apply labels which we'll later use to prevent deploying components to control plane nodes
 #
 kubectl label nodes oauth-worker  role=worker
 kubectl label nodes oauth-worker2 role=worker

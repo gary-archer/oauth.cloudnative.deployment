@@ -1,20 +1,22 @@
-VERSION 1 (APPS DEPLOYED AND REPOS SIMPLIFIED)
-------------------------
-1. Get APIs running
+VERSION 1
+---------
+1. Get APIs running inside the cluster
 
-2. Get web host running
+2. Get Web Host running inside the cluster
 
-3. Update READMEs
+3. Fix Node.js problems
 
-VERSION 2 (REVERSE PROXY)
--------------------------
-1. Use Kong for cookie decryption
+4. Update READMEs
 
-2. Test SPA fully working
+5. NET API to single file EXE
 
-3. Update READMEs and make public
+6. Use Kong for API routing with cookie decryption
 
-VERSION 3 (LOGGING)
+7. Test SPA fully working
+
+8. Update READMEs and make public
+
+VERSION 2 (LOGGING)
 -------------------
 1. Elastic base components
 
@@ -27,17 +29,15 @@ VERSION 3 (LOGGING)
 
 4. Update READMEs and make public
 
-VERSION 4 (CLOUD ELASTIC)
--------------------------
-1. Delete existing data
+5. Delete existing data
    Update to latest Elastic version
 
-2. Update Serverless API and token handler serverless code to use userID / method
+6. Update Serverless API and token handler serverless code to use userID / method
 
-3. Recreate the schema and pipelines, then redeploy
+7. Recreate the schema and pipelines, then redeploy
    Ensure that live functionbeat config is backed up to Google drive
 
-VERSION 5
+VERSION 3
 ---------
 1. Get dashboard deployed via Helm chart
    Use Helm chart and expose at dashboard.mycluster.com
@@ -47,17 +47,8 @@ VERSION 5
 4. Get APIs and webhost deploying, and update base images to latest
    Remove cloud native deployment resources from code projects
 
-VERSION 6
+VERSION 4
 ---------
 1. Feature switch to deploy Curity
 
-2. Optionally use phantom token plugin
-
-NOTES
------
-
-#
-# Restarts
-#
-#https://github.com/kubernetes-sigs/kind/issues/148
-#docker start kind-1-control-plane && docker exec kind-1-control-plane sh -c 'mount -o remount,ro /sys; kill -USR1 1'
+2. Feature switched use of phantom token plugin

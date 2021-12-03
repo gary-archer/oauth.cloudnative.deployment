@@ -18,18 +18,27 @@ spec:
       labels:
         app: finalapi
     spec:
+      nodeSelector:
+        role: worker
       containers:
       - name: finalapi
         image: finalapi:v1
         imagePullPolicy: Never
         volumeMounts:
-          - mountPath: /usr/api/certs
-            name: ssl-cert
+          - name: config
+            mountPath: /usr/api
+            subPath: api.config.json
+            readOnly: true
+          - name: ssl-cert
+            mountPath: /usr/api/certs
             readOnly: true
       volumes:
+        - name: config
+          configMap:
+            name: api-config
         - name: ssl-cert
           secret:
-            secretName: finalapi-svc-internal-cert
+            secretName: finalapi-pkcs12-password
 ---
 kind: Service
 apiVersion: v1
@@ -45,9 +54,9 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: finalapi-svc-internal-cert
+  name: finalapi-cert
 spec:
-  secretName: finalapi-svc-internal-cert
+  secretName: finalapi-pkcs12-password
   issuerRef:
     name: ca-issuer
     kind: Issuer
@@ -62,28 +71,3 @@ spec:
       passwordSecretRef:
         name: finalapi-pkcs12-password
         key: password
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: finalapi-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/ingress.class: 'nginx'
-    nginx.ingress.kubernetes.io/secure-backends: 'true'
-    nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
-spec:
-  tls:
-    - hosts:
-        - api.mycluster.com
-      secretName: mycluster-com-tls
-  rules:
-    - host: api.mycluster.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: finalapi-svc
-                port:
-                  number: 8101

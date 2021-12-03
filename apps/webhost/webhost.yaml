@@ -1,0 +1,59 @@
+#
+# The Kubernetes deployment file for our Web Host
+#
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: webhost
+  labels:
+    app: webhost
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webhost
+  template:
+    metadata:
+      labels:
+        app: webhost
+    spec:
+      nodeSelector:
+        role: worker
+      containers:
+      - name: webhost
+        image: webhost:v1
+        imagePullPolicy: Never
+        volumeMounts:
+          - name: host-config
+            mountPath: /usr/webhost
+            subPath: host.config.json
+            readOnly: true
+          - name: spa-config
+            mountPath: /usr/webhost
+            subPath: spa.config.json
+            readOnly: true
+          - name: ssl-cert
+            mountPath: /usr/webhost/certs
+            readOnly: true
+      volumes:
+        - name: host-config
+          configMap:
+            name: host-config
+        - name: spa-config
+          configMap:
+            name: spa-config
+        - name: ssl-cert
+          secret:
+            secretName: webhost-pkcs12-password
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: webhost-svc
+spec:
+  selector:
+    app: webhost
+  ports:
+  - protocol: "TCP"
+    port: 8102

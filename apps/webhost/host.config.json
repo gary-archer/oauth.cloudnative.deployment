@@ -1,0 +1,14 @@
+{
+    "host": {
+        "port": 8102,
+        "sslCertificateFileName": "./certs/keystore.p12",
+        "sslCertificatePassword": "Password1",
+        "mode": "production"
+    },
+    "securityHeaders": {
+        "trustedHosts": [
+            "https://api.mycluster.com"
+        ],
+        "enabled": true
+    }
+}
