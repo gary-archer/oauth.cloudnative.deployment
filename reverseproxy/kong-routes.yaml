@@ -21,6 +21,6 @@ services:
   - name: bff-token
     config:
       encryption_key: aPdSgVkYp3s6v9y$B&E)H+MbQeThWmZq
-      cookie_name_prefix: mycompanycluster
+      cookie_name_prefix: mycompany
       trusted_web_origins:
       - https://web.mycompanycluster.com
