@@ -1,20 +1,18 @@
 VERSION 1
 ---------
-1. Get Kong working
-   Cannot find trusted-ca etc
+1. Deploy bff-token plugin and get to the point where cookie validation fails
 
-2. Deploy bff-token plugin
+2. Deploy token handler
 
-3. Deploy token handler
+3. Test SPA fully working
 
-4. Test SPA fully working
+4. Update READMEs and make public
 
-5. Update READMEs and make public
-
-KIND
-----
+VERSION 2
+---------
 - See if I can upgrade to kind on a feature branch
-  Feels like a better stack, though ingress needs to connect only to control plane
+  Feels like a better stack, with ingress connecting only to control plane
+  Right now minikube only deploys pods to the first node
 
 VERSION 2 (LOGGING)
 -------------------

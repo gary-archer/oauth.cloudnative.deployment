@@ -59,16 +59,6 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Create a configmap for the Root CA
-#
-kubectl -n deployed delete configmap internal-root-ca 2>/dev/null
-kubectl -n deployed create configmap internal-root-ca --from-file=./certs/default.svc.cluster.local.ca.pem
-if [ $? -ne 0 ]; then
-  echo '*** Problem creating a configmap for the internal SSL Root Authority ***'
-  exit 1
-fi
-
-#
 # Create the cluster issuer
 #
 kubectl -n deployed apply -f ./clusterIssuer.yaml

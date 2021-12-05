@@ -46,10 +46,10 @@ spec:
           value: '/etc/secrets/certs/tls.key'
         - name: KONG_SSL_CERT
           value: '/etc/secrets/certs/tls.crt'
-        #- name: KONG_SSL_TRUSTED_CERTIFICATE
-        #  value: '/etc/secrets/trusted.ca.pem'
-        #- name: KONG_LUA_SSL_TRUSTED_CERTIFICATE
-        #  value: '/etc/secrets/trusted.ca.pem'
+        - name: KONG_SSL_TRUSTED_CERTIFICATE
+          value: '/etc/secrets/certs/trusted.ca.pem'
+        - name: KONG_LUA_SSL_TRUSTED_CERTIFICATE
+          value: '/etc/secrets/certs/ca.crt'
         - name: KONG_LOG_LEVEL
           value: 'info'
         - name: KONG_PLUGINS
@@ -62,10 +62,6 @@ spec:
           - name: ssl-cert
             mountPath: /etc/secrets/certs
             readOnly: true
-          #- name: trusted-ca
-          #  mountPath: /etc/secrets/trusted.ca.pem
-          #  subPath: trusted.ca.pem
-          #  readOnly: true
       volumes:
         - name: kong-config
           configMap:
@@ -73,9 +69,6 @@ spec:
         - name: ssl-cert
           secret:
             secretName: kong-ssl-cert
-        #- name: trusted-ca
-        #  configMap:
-        #    name: internal-root-ca
 ---
 kind: Service
 apiVersion: v1
