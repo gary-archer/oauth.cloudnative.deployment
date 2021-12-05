@@ -1,12 +1,13 @@
 VERSION 1
 ---------
-1. Deploy bff-token plugin and get to the point where cookie validation fails
+1. Deploy token handler
 
-2. Deploy token handler
+2. Test SPA fully working
 
-3. Test SPA fully working
+3. Update READMEs and make public
+   Move future notes to Google docs
 
-4. Update READMEs and make public
+4. Clean up code repos
 
 VERSION 2
 ---------

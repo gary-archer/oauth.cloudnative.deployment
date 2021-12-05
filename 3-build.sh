@@ -7,6 +7,16 @@
 API_TECH='nodejs'
 
 #
+# Build the token handler
+#
+./tokenhandler/build.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+exit
+
+
+#
 # Build the web host
 #
 ./webhost/build.sh
@@ -19,6 +29,23 @@ fi
 #
 ./api/build.sh "$API_TECH"
 if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+#
+# Build the token handler
+#
+./tokenhandler/build.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+#
+# Download the cookie decryption reverse proxy plugin
+#
+git clone https://github.com/curityio/kong-bff-plugin resources/kong-bff-plugin
+if [ $? -ne 0 ]; then
+  echo '*** Kong cookie decryption plugin download problem encountered'
   exit 1
 fi
 

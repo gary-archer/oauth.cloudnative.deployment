@@ -1,5 +1,5 @@
 #
-# The Kubernetes resources for our Web Host, which runs on port 8101
+# The Kubernetes resources for the Web Host, which delivers static web content
 #
 kind: Certificate
 apiVersion: cert-manager.io/v1
@@ -50,7 +50,7 @@ spec:
             mountPath: /usr/webhost/spa.config.json
             subPath: spa.config.json
             readOnly: true
-          - name: ssl-cert
+          - name: webhost-ssl-cert
             mountPath: /usr/webhost/certs
             readOnly: true
       volumes:
@@ -60,7 +60,7 @@ spec:
         - name: spa-config
           configMap:
             name: spa-config
-        - name: ssl-cert
+        - name: webhost-ssl-cert
           secret:
             secretName: webhost-pkcs12
 ---

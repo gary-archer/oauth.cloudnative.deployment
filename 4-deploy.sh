@@ -23,9 +23,17 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# Deploy the token handler
+#
+./reverseproxy/tokenhandler.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+#
 # Deploy the reverse proxy
 #
-./reverse-proxy/deploy.sh
+./reverseproxy/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi

@@ -1,5 +1,5 @@
 #
-# The Kubernetes resources for our final API, which runs on port 8101
+# The Kubernetes resources for the final API, which serves business data to the SPA
 #
 kind: Certificate
 apiVersion: cert-manager.io/v1
@@ -46,14 +46,14 @@ spec:
             mountPath: /usr/api/api.config.json
             subPath: api.config.json
             readOnly: true
-          - name: ssl-cert
+          - name: api-ssl-cert
             mountPath: /usr/api/certs
             readOnly: true
       volumes:
         - name: api-config
           configMap:
             name: api-config
-        - name: ssl-cert
+        - name: api-ssl-cert
           secret:
             secretName: finalapi-pkcs12
 ---

@@ -1,0 +1,26 @@
+_format_version: '2.1'
+_transform: true
+services:
+
+# The SPA calls https://api.mycluster.com/tokenhandler to perform OAuth requests
+- name: tokenhandler
+  url: https://tokenhandler-svc:8101/tokenhandler
+  routes:
+  - name: tokenhandler-api-route
+    paths:
+    - /tokenhandler
+
+  # The SPA calls https://api.mycluster.com/api to access business data
+- name: finalapi
+  url: https://finalapi-svc:8101/api
+  routes:
+  - name: finalapi-route
+    paths:
+    - /api
+  plugins:
+  - name: bff-token
+    config:
+      encryption_key: aPdSgVkYp3s6v9y$B&E)H+MbQeThWmZq
+      cookie_name_prefix: mycluster
+      trusted_web_origins:
+      - http://www.mycluster.com

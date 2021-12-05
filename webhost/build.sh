@@ -54,7 +54,7 @@ cp ../../../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
 cd ..
 docker build --no-cache -f webhost/Dockerfile -t webhost:v1 .
 if [ $? -ne 0 ]; then
-  echo '*** Web Host Docker build problem encountered'
+  echo '*** Web Host docker build problem encountered'
   exit 1
 fi
 
@@ -63,6 +63,6 @@ fi
 #
 minikube image load webhost:v1 --profile oauth
 if [ $? -ne 0 ]; then
-  echo '*** Web Host Docker build problem encountered'
+  echo '*** Web Host docker deploy problem encountered'
   exit 1
 fi

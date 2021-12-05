@@ -14,7 +14,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 API_TECH="$1"
 if [ "$API_TECH" != 'nodejs' ] && [ "$API_TECH" != 'netcore' ] && [ "$API_TECH" != 'java' ]; then
-  echo 'An invalid API_TECH parameter was supplied'
+  echo '*** An invalid API_TECH parameter was supplied'
   exit 1
 fi
 
@@ -98,6 +98,6 @@ fi
 #
 minikube image load finalapi:v1 --profile oauth
 if [ $? -ne 0 ]; then
-  echo '*** Web Host Docker build problem encountered'
+  echo '*** API docker deploy problem encountered'
   exit 1
 fi
