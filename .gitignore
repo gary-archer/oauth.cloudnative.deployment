@@ -3,3 +3,4 @@ certs/mycluster*
 certs/default*
 resources
 api/api.config.json
+trusted.ca.pem

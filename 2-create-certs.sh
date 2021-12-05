@@ -38,7 +38,7 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6
 # https://github.com/jetstack/cert-manager/issues/3338#issuecomment-707579834
 #
 echo 'Waiting for cainjector to inject CA certificates into web hook ...'
-sleep 30
+sleep 45
 
 #
 # Next create the Root CA for SSL inside the cluster

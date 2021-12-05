@@ -45,11 +45,35 @@ kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 #
 # Enable the use of local registries
 #
-minikube addons enable registry
+#minikube addons enable registry --profile oauth
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered enabling the minikube registry addon'
   exit 1
 fi
+
+#
+# Run a registry from which Kubernetes can pull locally built Docker images
+#
+#docker container stop registry  1>/dev/null 2>&1
+#docker container rm -v registry 1>/dev/null 2>&1
+#docker run -d -p 5000:5000 --restart=always --name registry registry:2
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered starting the Docker registry'
+  exit 1
+fi
+
+#
+# Enable nodes to pull images from the host
+#
+#case "$(uname -s)" in
+#  Darwin)
+#    docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:host.docker.internal:5000"
+# 	;;
+#
+#  MINGW64*)
+#    docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:$(minikube ip):5000"
+#	;;
+#esac
 
 #
 # Deploy a utility POD for troubleshooting
@@ -67,7 +91,6 @@ fi
 kubectl -n deployed rollout status daemonset/network-multitool
 
 #
-# Indicate success, and show the resulting nodes and pods
+# Indicate success
 #
-kubectl -n deployed get pods -o wide
 echo 'Cluster was created successfully'

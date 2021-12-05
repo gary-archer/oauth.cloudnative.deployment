@@ -6,7 +6,7 @@ apiVersion: cert-manager.io/v1
 metadata:
   name: kong-cert
 spec:
-  secretName: kong-pkcs12-password
+  secretName: kong-ssl-cert
   issuerRef:
     name: ca-issuer
     kind: Issuer
@@ -15,12 +15,6 @@ spec:
   - kong-proxy-svc
   - kong-proxy-svc.default.svc
   - kong-proxy-svc.default.svc.cluster.local
-  keystores:
-    pkcs12:
-      create: true
-      passwordSecretRef:
-        name: kong-pkcs12-password
-        key: password
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -45,17 +39,17 @@ spec:
         - name: KONG_DATABASE
           value: 'off'
         - name: KONG_DECLARATIVE_CONFIG
-          value: '/usr/local/kong/declarative/kong-routes.yml'
+          value: '/usr/local/kong/declarative/kong-routes.yaml'
         - name: KONG_PROXY_LISTEN
-          value: '0.0.0.0:8000 ssl'
+          value: '0.0.0.0:8100 ssl'
         - name: KONG_SSL_CERT_KEY
-          value: '/usr/local/share/certs/tls.key'
+          value: '/etc/secrets/certs/tls.key'
         - name: KONG_SSL_CERT
-          value: '/usr/local/share/certs/tls.pem'
-        - name: KONG_SSL_TRUSTED_CERTIFICATE
-          value: '/usr/local/share/certs/trusted.ca.pem'
-        - name: KONG_LUA_SSL_TRUSTED_CERTIFICATE
-          value: '/usr/local/share/certs/trusted.ca.pem'
+          value: '/etc/secrets/certs/tls.crt'
+        #- name: KONG_SSL_TRUSTED_CERTIFICATE
+        #  value: '/etc/secrets/trusted.ca.pem'
+        #- name: KONG_LUA_SSL_TRUSTED_CERTIFICATE
+        #  value: '/etc/secrets/trusted.ca.pem'
         - name: KONG_LOG_LEVEL
           value: 'info'
         - name: KONG_PLUGINS
@@ -65,17 +59,23 @@ spec:
             mountPath: /usr/local/kong/declarative/kong-routes.yaml
             subPath: kong-routes.yaml
             readOnly: true
-          - name: trusted-ca
-            mountPath: /usr/local/share/certs/trusted.ca.pem
-            subPath: trusted.ca.pem
+          - name: ssl-cert
+            mountPath: /etc/secrets/certs
             readOnly: true
+          #- name: trusted-ca
+          #  mountPath: /etc/secrets/trusted.ca.pem
+          #  subPath: trusted.ca.pem
+          #  readOnly: true
       volumes:
         - name: kong-config
           configMap:
             name: kong-config
-        - name: trusted-ca
-          configMap:
-            name: internal-root-ca
+        - name: ssl-cert
+          secret:
+            secretName: kong-ssl-cert
+        #- name: trusted-ca
+        #  configMap:
+        #    name: internal-root-ca
 ---
 kind: Service
 apiVersion: v1

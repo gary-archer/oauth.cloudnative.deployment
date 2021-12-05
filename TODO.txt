@@ -1,14 +1,20 @@
-Currently.
-Trying to use a local registry for Docker images:
-https://docs.docker.com/registry/deploying/
-
 VERSION 1
 ---------
-1. Use Kong for API routing with cookie decryption
+1. Get Kong working
+   Cannot find trusted-ca etc
 
-2. Test SPA fully working
+2. Deploy bff-token plugin
 
-3. Update READMEs and make public
+3. Deploy token handler
+
+4. Test SPA fully working
+
+5. Update READMEs and make public
+
+KIND
+----
+- See if I can upgrade to kind on a feature branch
+  Feels like a better stack, though ingress needs to connect only to control plane
 
 VERSION 2 (LOGGING)
 -------------------

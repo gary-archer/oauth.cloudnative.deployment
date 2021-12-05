@@ -6,7 +6,7 @@ apiVersion: cert-manager.io/v1
 metadata:
   name: webhost-cert
 spec:
-  secretName: webhost-pkcs12-password
+  secretName: webhost-pkcs12
   issuerRef:
     name: ca-issuer
     kind: Issuer
@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - name: webhost
-        image: localhost:5000/webhost
+        image: webhost:v1
         volumeMounts:
           - name: webhost-config
             mountPath: /usr/webhost/host.config.json
@@ -62,7 +62,7 @@ spec:
             name: spa-config
         - name: ssl-cert
           secret:
-            secretName: webhost-pkcs12-password
+            secretName: webhost-pkcs12
 ---
 kind: Service
 apiVersion: v1

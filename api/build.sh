@@ -94,11 +94,10 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Push the Docker image
+# Load it into minikube's Docker registry
 #
-docker tag finalapi:v1 localhost:5000/finalapi
-docker push localhost:5000/finalapi
+minikube image load finalapi:v1 --profile oauth
 if [ $? -ne 0 ]; then
-  echo '*** API Docker push problem encountered'
+  echo '*** Web Host Docker build problem encountered'
   exit 1
 fi

@@ -31,12 +31,6 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Close down the registry for Docker images now that we've finished with it
-#
-#docker container stop registry 1>/dev/null
-#docker container rm -v registry 1>/dev/null
-
-#
 # Indicate success
 #
 echo 'All application resources were deployed successfully'

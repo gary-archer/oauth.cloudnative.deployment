@@ -59,11 +59,10 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Push the Docker image
+# Load it into minikube's Docker registry
 #
-docker tag webhost:v1 localhost:5000/webhost
-docker push localhost:5000/webhost
+minikube image load webhost:v1 --profile oauth
 if [ $? -ne 0 ]; then
-  echo '*** Web Host Docker push problem encountered'
+  echo '*** Web Host Docker build problem encountered'
   exit 1
 fi

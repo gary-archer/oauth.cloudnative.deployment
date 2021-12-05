@@ -1,6 +1,11 @@
 Move notes to a Google doc
 --------------------------
 
+# Problems:
+
+- Cannot resolve host names from multitool POD
+  /etc/resolv.conf seems different
+
 # Using the utility pod:
 
 FIRST_POD=$(kubectl get pods -l app=network-multitool -o=name -n deployed | head -1)
