@@ -23,4 +23,4 @@ services:
       encryption_key: aPdSgVkYp3s6v9y$B&E)H+MbQeThWmZq
       cookie_name_prefix: mycompanycluster
       trusted_web_origins:
-      - http://www.mycompanycluster.com
+      - https://web.mycompanycluster.com

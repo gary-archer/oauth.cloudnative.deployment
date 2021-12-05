@@ -5,16 +5,10 @@
 ####################################################
 
 #
-# Ensure that we are in the folder containing this script
+# Ensure that we are in the root folder
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
-
-#
-# Prepare folders
-#
 cd ..
-mkdir -p resources
-rm -rf resources/tokenhandler
 
 #
 # Get the tokenhandler API
@@ -49,6 +43,7 @@ fi
 #
 # Load it into minikube's Docker registry
 #
+minikube image rm   tokenhandler:v1 --profile oauth 2>/dev/null
 minikube image load tokenhandler:v1 --profile oauth
 if [ $? -ne 0 ]; then
   echo '*** Token handler docker deploy problem encountered'

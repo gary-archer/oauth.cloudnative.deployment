@@ -5,16 +5,10 @@
 ###############################################
 
 #
-# Ensure that we are in the folder containing this script
+# Ensure that we are in the root folder
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
-
-#
-# Prepare folders
-#
 cd ..
-mkdir -p resources
-rm -rf resources/finalweb
 
 #
 # Get the final web sample
@@ -61,6 +55,7 @@ fi
 #
 # Load it into minikube's Docker registry
 #
+minikube image rm   webhost:v1 --profile oauth 2>/dev/null
 minikube image load webhost:v1 --profile oauth
 if [ $? -ne 0 ]; then
   echo '*** Web Host docker deploy problem encountered'

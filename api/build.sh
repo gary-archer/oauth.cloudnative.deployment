@@ -5,9 +5,10 @@
 ##########################################
 
 #
-# Ensure that we are in the folder containing this script
+# Ensure that we are in the root folder
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
+cd ..
 
 #
 # Check for a valid command line parameter
@@ -17,13 +18,6 @@ if [ "$API_TECH" != 'nodejs' ] && [ "$API_TECH" != 'netcore' ] && [ "$API_TECH" 
   echo '*** An invalid API_TECH parameter was supplied'
   exit 1
 fi
-
-#
-# Prepare folders
-#
-cd ..
-mkdir -p resources
-rm -rf resources/finalapi
 
 #
 # Build the Node.js API
@@ -96,6 +90,7 @@ fi
 #
 # Load it into minikube's Docker registry
 #
+minikube image rm   finalapi:v1 --profile oauth 2>/dev/null
 minikube image load finalapi:v1 --profile oauth
 if [ $? -ne 0 ]; then
   echo '*** API docker deploy problem encountered'
