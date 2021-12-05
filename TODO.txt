@@ -1,18 +1,19 @@
 VERSION 1
 ---------
-1. Deploy token handler
-
-2. Test SPA fully working
+1. Get SPA fully working
 
 3. Update READMEs and make public
    Move future notes to Google docs
 
-4. Clean up code repos
+3. Delete Kubernetes and Docker from code repos
+
+4. Create an oauth.localtokenhandler.deployment repo and simplify code repos
 
 VERSION 2
 ---------
 - See if I can upgrade to kind on a feature branch
-  Feels like a better stack, with ingress connecting only to control plane
+  Feels like a better stack, with better performance etc
+  Ingress connecting will be only to the control plane
   Right now minikube only deploys pods to the first node
 
 VERSION 2 (LOGGING)
