@@ -13,7 +13,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # Tear down the cluster if it exists already, then create it
 #
 minikube delete --profile oauth 2>/dev/null
-minikube start --nodes 2 --cpus=4 --memory=16384 --disk-size=50g --driver=hyperkit --profile oauth
+minikube start --nodes 3 --cpus=4 --memory=16384 --disk-size=50g --driver=hyperkit --profile oauth
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Kubernetes cluster'
   exit 1

@@ -1,0 +1,14 @@
+DAEMONSET
+---------
+Cannot resolve host names from multitool daemonset pods
+/etc/resolv.conf seems different
+
+Avoid deploying multitool daemonset to control plane node
+
+MULTINODE INGRESS
+-----------------
+This shows that ingress is installed on oauth-m02 only:
+kubectl get pods -n ingress-nginx -o wide
+
+So I need to get the right IP and use that in the hosts file:
+minikube node list -p oauth

@@ -1,28 +1,27 @@
-DELIVERABLE 1 (SPA WORKING)
----------------------------
-1. Get SPA fully working
+DELIVERABLE 1 (SPA WORKING IN KUBERNETES)
+-----------------------------------------
+1. Update READMEs
 
-3. Update READMEs and make public
-   Move future notes to Google docs
+2. Test SPA with all 3 API technologies
 
-3. Delete Kubernetes and Docker from code repos
+DELIVERABLE 2 (SIMPLER FINAL SPA AND TOKEN HANDLER)
+---------------------------------------------------
+1. Change certificates repo to use shorter names mycompany.ca.pem
+   Single root folder
+   Update repos that use it and blog posts
 
-DELIVERABLE 2 (KIND)
---------------------
-- See if I can upgrade to kind on a feature branch
-  Feels like a better stack, with better performance etc
-  Ingress connecting will be only to the control plane
-  Right now minikube only deploys pods to the first node
+2. Token handler to use local setup and exclude testing API components
 
-DELIVERABLE 3 (CODE DELIVERY SEPARATION)
-----------------------------------------
-1. Remove delivery folder from other repos
+3. SPA to use full tests against deployed API
 
-2. Simplify certificates repo and update all samples that use it
+4. oauth.localtokenhandler.deployment repo
 
-3. Redeploy cloud SPA and tokenhandler, and perhaps functionbeat
+5. Get rid of submodules from FinalSPA
 
-DELIVERABLE 4 (LOGGING)
+6. Redeploy SPA, tokenhandler and functionbeat config to AWS
+   Test cloud logging is fully working for 2 APIs after SPA logins
+
+DELIVERABLE 3 (LOGGING)
 -----------------------
 1. Elastic base components
 
@@ -42,19 +41,3 @@ DELIVERABLE 4 (LOGGING)
 
 7. Recreate the schema and pipelines, then redeploy
    Ensure that live functionbeat config is backed up to Google drive
-
-VERSION 3
----------
-1. Get dashboard deployed via Helm chart
-   Use Helm chart and expose at dashboard.mycompanycluster.com
-
-2. Deploy a utils POD with curl, openssl and jq
-
-4. Get APIs and webhost deploying, and update base images to latest
-   Remove cloud native deployment resources from code projects
-
-VERSION 4
----------
-1. Feature switch to deploy Curity
-
-2. Feature switched use of phantom token plugin
