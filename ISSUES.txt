@@ -12,3 +12,8 @@ kubectl get pods -n ingress-nginx -o wide
 
 So I need to get the right IP and use that in the hosts file:
 minikube node list -p oauth
+
+UNDERSTAND NETWORK
+------------------
+Go through the book and use hyperkit VMs plus PODs
+Document the results in this repo
