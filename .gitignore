@@ -1,5 +1,5 @@
 .DS_Store
-certs/mycluster*
+certs/mycompanycluster*
 certs/default*
 resources
 api/api.config.json

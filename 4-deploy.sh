@@ -7,6 +7,11 @@
 API_TECH='nodejs'
 
 #
+# Ensure that we are in the folder containing this script
+#
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+#
 # Deploy the web host
 #
 ./webhost/deploy.sh

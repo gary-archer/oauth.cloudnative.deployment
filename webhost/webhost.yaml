@@ -47,7 +47,7 @@ spec:
             subPath: host.config.json
             readOnly: true
           - name: spa-config
-            mountPath: /usr/webhost/spa.config.json
+            mountPath: /usr/webhost/spa/spa.config.json
             subPath: spa.config.json
             readOnly: true
           - name: webhost-ssl-cert
@@ -86,10 +86,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - web.mycluster.com
-      secretName: mycluster-com-tls
+        - web.mycompanycluster.com
+      secretName: mycompanycluster-com-tls
   rules:
-    - host: web.mycluster.com
+    - host: web.mycompanycluster.com
       http:
         paths:
           - path: /

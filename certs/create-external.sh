@@ -29,15 +29,15 @@ esac
 #
 # Root certificate parameters
 #
-ROOT_CERT_FILE_PREFIX='mycluster.ca'
-ROOT_CERT_DESCRIPTION='Self Signed CA for mycluster.com'
+ROOT_CERT_FILE_PREFIX='mycompanycluster.ca'
+ROOT_CERT_DESCRIPTION='Self Signed CA for mycompanycluster.com'
 
 #
 # SSL certificate parameters
 #
-SSL_CERT_FILE_PREFIX='mycluster.ssl'
+SSL_CERT_FILE_PREFIX='mycompanycluster.ssl'
 SSL_CERT_PASSWORD='Password1'
-WILDCARD_DOMAIN_NAME='*.mycluster.com'
+WILDCARD_DOMAIN_NAME='*.mycompanycluster.com'
 
 #
 # Create the root certificate public + private key protected by a passphrase
@@ -123,5 +123,5 @@ fi
 #
 # Delete files no longer needed
 #
-rm mycluster.ssl.csr
-rm mycluster.srl
+rm mycompanycluster.ssl.csr
+rm mycompanycluster.srl

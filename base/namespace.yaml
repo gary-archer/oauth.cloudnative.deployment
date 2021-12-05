@@ -1,7 +1,4 @@
-#
-# Our pipeline has a single stage of 'Deployed to a Developer PC'
-#
-apiVersion: v1
 kind: Namespace
+apiVersion: v1
 metadata:
   name: deployed

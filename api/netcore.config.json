@@ -6,7 +6,7 @@
         "useProxy": false,
         "proxyUrl": "",
         "webTrustedOrigins": [
-            "https://web.mycluster.com"
+            "https://web.mycompanycluster.com"
         ]
     },
     "logging": {

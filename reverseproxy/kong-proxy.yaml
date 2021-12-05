@@ -98,10 +98,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - api.mycluster.com
-      secretName: mycluster-com-tls
+        - api.mycompanycluster.com
+      secretName: mycompanycluster-com-tls
   rules:
-    - host: api.mycluster.com
+    - host: api.mycompanycluster.com
       http:
         paths:
           - path: /

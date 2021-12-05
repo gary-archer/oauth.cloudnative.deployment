@@ -20,8 +20,8 @@ fi
 #
 # Create a secret for external URLs
 #
-kubectl -n deployed delete secret mycluster-com-tls 2>/dev/null
-kubectl -n deployed create secret tls mycluster-com-tls --cert=./mycluster.ssl.pem --key=./mycluster.ssl.key
+kubectl -n deployed delete secret mycompanycluster-com-tls 2>/dev/null
+kubectl -n deployed create secret tls mycompanycluster-com-tls --cert=./mycompanycluster.ssl.pem --key=./mycompanycluster.ssl.key
 if [ $? -ne 0 ]; then
   echo '*** Problem creating ingress SSL wildcard secret'
   exit 1

@@ -7,14 +7,19 @@
 API_TECH='nodejs'
 
 #
+# Ensure that we are in the folder containing this script
+#
+cd "$(dirname "${BASH_SOURCE[0]}")"
+rm -rf resources
+mkdir resources
+
+#
 # Build the token handler
 #
 ./tokenhandler/build.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
-exit
-
 
 #
 # Build the web host
