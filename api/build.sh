@@ -88,10 +88,9 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Load it into minikube's Docker registry
+# Load it into kind's Docker registry
 #
-minikube image rm   finalapi:v1 --profile oauth 2>/dev/null
-minikube image load finalapi:v1 --profile oauth
+kind load docker-image finalapi:v1 --name oauth
 if [ $? -ne 0 ]; then
   echo '*** API docker deploy problem encountered'
   exit 1

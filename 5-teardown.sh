@@ -12,7 +12,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # Delete the cluster
 #
-minikube delete --profile oauth
+kind delete cluster --name=oauth
 
 #
 # Indicate success
