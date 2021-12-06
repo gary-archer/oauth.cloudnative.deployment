@@ -86,10 +86,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - web.mycompanycluster.com
-      secretName: mycompanycluster-com-tls
+        - web.mycompany.com
+      secretName: mycompany-com-tls
   rules:
-    - host: web.mycompanycluster.com
+    - host: web.mycompany.com
       http:
         paths:
           - path: /

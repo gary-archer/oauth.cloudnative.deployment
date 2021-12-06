@@ -20,6 +20,11 @@ if [ "$API_TECH" != 'nodejs' ] && [ "$API_TECH" != 'netcore' ] && [ "$API_TECH" 
 fi
 
 #
+# Ensure that we start clean
+#
+rm -rf resources/finalapi
+
+#
 # Build the Node.js API
 #
 if [ "$API_TECH" == 'nodejs' ]; then

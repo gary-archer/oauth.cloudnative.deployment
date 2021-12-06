@@ -10,8 +10,6 @@ API_TECH='nodejs'
 # Ensure that we are in the folder containing this script
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
-rm -rf resources
-mkdir resources
 
 #
 # Build the web host
@@ -40,6 +38,7 @@ fi
 #
 # Download the cookie decryption reverse proxy plugin
 #
+rm -rf resources/kong-bff-plugin
 git clone https://github.com/curityio/kong-bff-plugin resources/kong-bff-plugin
 if [ $? -ne 0 ]; then
   echo '*** Kong cookie decryption plugin download problem encountered'

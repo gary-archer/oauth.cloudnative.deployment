@@ -2,7 +2,7 @@ _format_version: '2.1'
 _transform: true
 services:
 
-# The SPA calls https://api.mycompanycluster.com/tokenhandler to perform OAuth requests
+# The SPA calls https://api.mycompany.com/tokenhandler to perform OAuth requests
 - name: tokenhandler
   url: https://tokenhandler-svc:8101/tokenhandler
   routes:
@@ -10,7 +10,7 @@ services:
     paths:
     - /tokenhandler
 
-  # The SPA calls https://api.mycompanycluster.com/api to access business data
+  # The SPA calls https://api.mycompany.com/api to access business data
 - name: finalapi
   url: https://finalapi-svc:8101/api
   routes:
@@ -23,4 +23,4 @@ services:
       encryption_key: aPdSgVkYp3s6v9y$B&E)H+MbQeThWmZq
       cookie_name_prefix: mycompany
       trusted_web_origins:
-      - https://web.mycompanycluster.com
+      - https://web.mycompany.com

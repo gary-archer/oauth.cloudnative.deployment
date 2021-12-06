@@ -13,6 +13,7 @@ cd ..
 #
 # Get the tokenhandler API
 #
+rm -rf resources/tokenhandler
 git clone https://github.com/gary-archer/oauth.tokenhandlerapi resources/tokenhandler
 if [ $? -ne 0 ]; then
   echo '*** Token handler download problem encountered'
