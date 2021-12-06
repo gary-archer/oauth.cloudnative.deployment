@@ -62,7 +62,7 @@ Update the hosts file with these development domain names:
 Then trust the root certificate authority at `certs\mycompany.ca.pem`.\
 This is done by adding it to the macOS system keychain or Windows local computer certificate store.
 
-Then login with these details:
+Then sign in to the Single Page Application with these details:
 
 | Field | Value |
 | ----- | ----- |
