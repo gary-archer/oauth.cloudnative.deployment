@@ -19,7 +19,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 cd resources/developmentcertificates
-git checkout feature/revamp
 cp certs/mycompany* ../../certs
 rm -rf resources/developmentcertificates
 
