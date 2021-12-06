@@ -50,7 +50,7 @@ Later you can free all resources when required via this script:
 ./5-teardown.sh
 ```
 
-## Use the System
+## Enable Development URLs
 
 Update the hosts file with these development domain names:
 
@@ -62,6 +62,8 @@ Update the hosts file with these development domain names:
 Then trust the root certificate authority at `certs\mycompany.ca.pem`.\
 This is done by adding it to the macOS system keychain or Windows local computer certificate store.
 
+## Use the System
+
 Then sign in to the Single Page Application with these details:
 
 | Field | Value |
@@ -70,7 +72,7 @@ Then sign in to the Single Page Application with these details:
 | User Name | guestuser@mycompany.com |
 | User Password | GuestPassword1 |
 
-## View Kubernetes resources
+## View Kubernetes Resources
 
 The deployment aims for a real world setup for a development computer, with multiple nodes:
 
@@ -83,7 +85,7 @@ oauth-worker          Ready    <none>                 15m   v1.21.1
 oauth-worker2         Ready    <none>                 15m   v1.21.1
 ```
 
-Application containers run on worker nodes within a deployed namespace:
+Application containers run on worker nodes within a `deployed` namespace:
 
 ```text
 kubectl get pods -o wide -n deployed
