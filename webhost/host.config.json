@@ -7,7 +7,7 @@
     },
     "securityHeaders": {
         "trustedHosts": [
-            "https://api.mycompanycluster.com"
+            "https://api.mycompany.com"
         ],
         "enabled": true
     }

@@ -107,10 +107,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - api.mycompanycluster.com
-      secretName: mycompanycluster-com-tls
+        - api.mycompany.com
+      secretName: mycompany-com-tls
   rules:
-    - host: api.mycompanycluster.com
+    - host: api.mycompany.com
       http:
         paths:
           - path: /

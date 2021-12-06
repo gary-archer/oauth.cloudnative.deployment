@@ -8,21 +8,27 @@
 # Ensure that we are in the folder containing this script
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
+rm -rf resources
+mkdir resources
 
 #
-# First run the script to create certificates for external URLs
+# First download certificates for mycompany.com from the shared repo
 #
-cd certs
-./create-external.sh
+git clone https://github.com/gary-archer/oauth.developmentcertificates resources/developmentcertificates
 if [ $? -ne 0 ]; then
   exit 1
 fi
+cd resources/developmentcertificates
+git checkout feature/revamp
+cp certs/mycompany* ../../certs
+rm -rf resources/developmentcertificates
 
 #
 # Create a secret for external URLs
 #
-kubectl -n deployed delete secret mycompanycluster-com-tls 2>/dev/null
-kubectl -n deployed create secret tls mycompanycluster-com-tls --cert=./mycompanycluster.ssl.pem --key=./mycompanycluster.ssl.key
+cd ../../certs
+kubectl -n deployed delete secret mycompany-com-tls 2>/dev/null
+kubectl -n deployed create secret tls mycompany-com-tls --cert=./mycompany.ssl.pem --key=./mycompany.ssl.key
 if [ $? -ne 0 ]; then
   echo '*** Problem creating ingress SSL wildcard secret'
   exit 1
@@ -42,10 +48,52 @@ echo 'Waiting for cainjector to inject CA certificates into web hook ...'
 sleep 45
 
 #
-# Next create the Root CA for SSL inside the cluster
+# Point to the OpenSSL configuration file for the platform
 #
-./create-internal.sh
+case "$(uname -s)" in
+
+  # Mac OS
+  Darwin)
+    export OPENSSL_CONF='/System/Library/OpenSSL/openssl.cnf'
+ 	;;
+
+  # Windows with Git Bash
+  MINGW64*)
+    export OPENSSL_CONF='C:/Program Files/Git/usr/ssl/openssl.cnf';
+    export MSYS_NO_PATHCONV=1;
+	;;
+esac
+
+#
+# Root certificate details for inside the cluster
+#
+ROOT_CERT_FILE_PREFIX='default.svc.cluster.local.ca'
+ROOT_CERT_DESCRIPTION='Self Signed CA for svc.default.cluster'
+
+#
+# Create the root certificate private key
+#
+openssl genrsa -out $ROOT_CERT_FILE_PREFIX.key 2048
 if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the internal Root CA key'
+  exit 1
+fi
+
+#
+# Create the public key root certificate file, which has a long lifetime
+#
+openssl req -x509 \
+    -new \
+    -nodes \
+    -key $ROOT_CERT_FILE_PREFIX.key \
+    -out $ROOT_CERT_FILE_PREFIX.pem \
+    -subj "/CN=$ROOT_CERT_DESCRIPTION" \
+    -reqexts v3_req \
+    -extensions v3_ca \
+    -sha256 \
+    -days 3650
+if [ $? -ne 0 ]; then
+  echo '*** Problem encountered creating the internal Root CA'
   exit 1
 fi
 

@@ -1,8 +1,8 @@
 {
     "app": {
-        "apiBaseUrl": "https://api.mycompanycluster.com/api"
+        "apiBaseUrl": "https://api.mycompany.com/api"
     },
     "oauth": {
-        "tokenHandlerApiBaseUrl": "https://api.mycompanycluster.com/tokenhandler"
+        "tokenHandlerApiBaseUrl": "https://api.mycompany.com/tokenhandler"
     }
 }

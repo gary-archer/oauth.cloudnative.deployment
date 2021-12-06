@@ -13,6 +13,7 @@ cd ..
 #
 # Get the final web sample
 #
+rm -rf resources/finalweb
 git clone https://github.com/gary-archer/oauth.websample.final resources/finalweb
 if [ $? -ne 0 ]; then
   echo '*** Web sample download problem encountered'
