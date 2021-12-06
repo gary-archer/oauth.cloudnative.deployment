@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#################################################################################################
-# Base setup for a cluster with 2 virtual machines (nodes), after running 'brew install minikube'
-#################################################################################################
+#############################################################################################
+# Base setup for a cluster with 2 virtual machines (nodes), after running 'brew install kind'
+#############################################################################################
 
 #
 # Ensure that we are in the folder containing this script
@@ -12,8 +12,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # Tear down the cluster if it exists already, then create it
 #
-minikube delete --profile oauth 2>/dev/null
-minikube start --nodes 3 --cpus=4 --memory=16384 --disk-size=50g --driver=hyperkit --profile oauth
+kind delete cluster --name=oauth
+kind create cluster --name=oauth --config=base/cluster.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Kubernetes cluster'
   exit 1
@@ -29,18 +29,21 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Ensure that components can be exposed from the cluster over port 443 to the development computer
+# Deploy ingress so that components can be exposed from the cluster over port 443 to the development computer
 #
-minikube addons enable ingress --profile oauth
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 if [ $? -ne 0 ]; then
-  echo "*** Problem encountered enabling the ingress addon for the cluster"
+  echo "*** Problem encountered deploying ingress resources"
   exit 1
 fi
 
 #
-# When using self signed certificates in development environments we must run this
+# Wait for ingress to complete installing
 #
-kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+kubectl wait --namespace ingress-nginx \
+--for=condition=ready pod \
+--selector=app.kubernetes.io/component=controller \
+--timeout=90s
 
 #
 # Deploy a utility POD for troubleshooting

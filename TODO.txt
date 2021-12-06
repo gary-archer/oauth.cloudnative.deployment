@@ -4,6 +4,8 @@ DELIVERABLE 1 (SPA WORKING IN KUBERNETES)
 
 2. Test SPA with all 3 API technologies
 
+3. Test on Windows
+
 DELIVERABLE 2 (SIMPLER FINAL SPA AND TOKEN HANDLER)
 ---------------------------------------------------
 1. Change certificates repo to use shorter names mycompany.ca.pem

@@ -8,7 +8,7 @@ URLs to go here
 
 ## Prerequisites
 
-- brew install minikube
+- brew install kind
 - Ensure that openssl, curl and jq are installed
 
 ## Deploy the System
