@@ -1,27 +1,34 @@
 DELIVERABLE 1 (SPA WORKING IN KUBERNETES)
 -----------------------------------------
-1. Update READMEs
+1. Test on Windows
 
-2. Test SPA with all 3 API technologies
+2. Fix .NET deployment problem:
 
-3. Test on Windows
+It was not possible to find any compatible framework version
+The framework 'Microsoft.AspNetCore.App', version '6.0.0' (x64) was not found.
+  - No frameworks were found.
+
+You can resolve the problem by installing the specified framework and/or SDK.
+
+The specified framework can be found at:
+  - https://aka.ms/dotnet-core-applaunch?framework=Microsoft.AspNetCore.App&framework_version=6.0.0&arch=x64&rid=debian.11-x64
 
 DELIVERABLE 2 (SIMPLER FINAL SPA AND TOKEN HANDLER)
 ---------------------------------------------------
-1. Change certificates repo to use shorter names mycompany.ca.pem
-   Single root folder
-   Update repos that use it and blog posts
+1. Get rid of submodules from FinalSPA
 
-2. Token handler to use local setup and exclude testing API components
+2. Token handler to use local setup and avoid testing of business API
 
-3. SPA to use full tests against deployed API
+3. SPA to use full tests against deployed Docker components
 
 4. oauth.localtokenhandler.deployment repo
 
-5. Get rid of submodules from FinalSPA
-
-6. Redeploy SPA, tokenhandler and functionbeat config to AWS
-   Test cloud logging is fully working for 2 APIs after SPA logins
+5. Redeploy SPA, tokenhandler and functionbeat config to AWS
+   Test cloud logging is fully working for both business API and token handler API
+   
+6. Reconsider certificate management in Docker and use of shared repo
+   Currently it forces some strange domain names
+   Kubernetes will also require extra domain names
 
 DELIVERABLE 3 (LOGGING)
 -----------------------
