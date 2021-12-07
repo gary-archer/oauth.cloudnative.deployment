@@ -1,20 +1,6 @@
 DELIVERABLE 1 (SPA WORKING IN KUBERNETES)
 -----------------------------------------
-1. Fix .NET deployment problem:
-
-It was not possible to find any compatible framework version
-The framework 'Microsoft.AspNetCore.App', version '6.0.0' (x64) was not found.
-  - No frameworks were found.
-
-You can resolve the problem by installing the specified framework and/or SDK.
-
-The specified framework can be found at:
-  - https://aka.ms/dotnet-core-applaunch?framework=Microsoft.AspNetCore.App&framework_version=6.0.0&arch=x64&rid=debian.11-x64
-  
-Try mcr.microsoft.com/dotnet/core/aspnet instead of mcr.microsoft.com/dotnet/core/runtime
-Also update log4net to 6.0.0
-
-2. Test on Windows via choco
+1. Test on Windows via choco
 
 DELIVERABLE 2 (SIMPLER FINAL SPA AND TOKEN HANDLER)
 ---------------------------------------------------
