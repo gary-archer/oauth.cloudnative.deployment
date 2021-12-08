@@ -14,7 +14,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # Create a configmap for the token handler's JSON configuration file
 #
 kubectl -n deployed delete configmap tokenhandler-config 2>/dev/null
-kubectl -n deployed create configmap tokenhandler-config --from-file=../tokenhandlerdeploy/api.config.json
+kubectl -n deployed create configmap tokenhandler-config --from-file=../tokenhandler-scripts/api.config.json
 if [ $? -ne 0 ]; then
   echo '*** Problem encountered creating the Token Handler configmap'
   exit 1

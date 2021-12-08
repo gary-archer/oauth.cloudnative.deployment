@@ -45,7 +45,7 @@ fi
 #
 # Build the Docker image
 #
-cp ../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
+cp ../../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
 cd ..
 docker build --no-cache -f webhost/Dockerfile -t webhost:v1 .
 if [ $? -ne 0 ]; then
