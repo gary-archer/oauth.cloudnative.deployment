@@ -4,7 +4,7 @@
 # This deploys Docker containers into the Kubernetes cluster
 ############################################################
 
-API_TECH='nodejs'
+API_TECH='netcore'
 
 #
 # Ensure that we are in the folder containing this script

@@ -8,24 +8,20 @@
 # Ensure that we are in the folder containing this script
 #
 cd "$(dirname "${BASH_SOURCE[0]}")"
-rm -rf resources
-mkdir resources
 
 #
 # First download certificates for mycompany.com from the shared repo
 #
-git clone https://github.com/gary-archer/oauth.developmentcertificates resources/developmentcertificates
+rm -rf certs
+git clone https://github.com/gary-archer/oauth.developmentcertificates certs
 if [ $? -ne 0 ]; then
   exit 1
 fi
-cd resources/developmentcertificates
-cp certs/mycompany* ../../certs
-rm -rf resources/developmentcertificates
 
 #
 # Create a secret for external URLs
 #
-cd ../../certs
+cd certs
 kubectl -n deployed delete secret mycompany-com-tls 2>/dev/null
 kubectl -n deployed create secret tls mycompany-com-tls --cert=./mycompany.ssl.pem --key=./mycompany.ssl.key
 if [ $? -ne 0 ]; then
@@ -109,6 +105,7 @@ fi
 #
 # Create the cluster issuer
 #
+cd ../base
 kubectl -n deployed apply -f ./clusterIssuer.yaml
 if [ $? -ne 0 ]; then
   echo '*** Problem creating the cluster issuer'

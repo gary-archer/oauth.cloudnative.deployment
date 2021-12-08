@@ -1,8 +1,8 @@
 #!/bin/bash
 
-######################################################
-# This deletes the cluster and other related resources
-######################################################
+###########################################################
+# This deletes the entire cluster and any related resources
+###########################################################
 
 #
 # Ensure that we are in the folder containing this script

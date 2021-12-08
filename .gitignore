@@ -1,6 +1,5 @@
 .DS_Store
-certs/mycompany*
-certs/default*
-resources
-api/api.config.json
-trusted.ca.pem
+certs
+apiconfig
+webhostconfig
+tokenhandlerconfig

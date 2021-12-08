@@ -22,8 +22,8 @@ fi
 #
 # Create a config map for the custom plugin
 #
-kubectl -n deployed delete configmap kong-bff-token 2>/dev/null
-kubectl -n deployed create configmap kong-bff-token --from-file=../resources/kong-bff-plugin/plugin
+kubectl -n deployed delete configmap oauth-proxy-config 2>/dev/null
+kubectl -n deployed create configmap oauth-proxy-config --from-file=../oauth-proxy-plugin/plugin
 if [ $? -ne 0 ];
 then
   echo "Problem encountered creating the Kong BFF blugin configmap"

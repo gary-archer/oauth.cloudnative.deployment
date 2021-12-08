@@ -59,7 +59,7 @@ spec:
         - name: KONG_NGINX_PROXY_LARGE_CLIENT_HEADER_BUFFERS
           value: '8 16k'
         - name: KONG_PLUGINS
-          value: 'bundled,bff-token'
+          value: 'bundled,oauth-proxy'
         volumeMounts:
           - name: kong-config
             mountPath: /usr/local/kong/declarative/kong-routes.yaml
@@ -68,8 +68,8 @@ spec:
           - name: kong-ssl-cert
             mountPath: /etc/secrets/certs
             readOnly: true
-          - name: kong-bff-token
-            mountPath: /usr/local/share/lua/5.1/kong/plugins/bff-token
+          - name: oauth-proxy-config
+            mountPath: /usr/local/share/lua/5.1/kong/plugins/oauth-proxy
             readOnly: true
       volumes:
         - name: kong-config
@@ -78,9 +78,9 @@ spec:
         - name: kong-ssl-cert
           secret:
             secretName: kong-ssl-cert
-        - name: kong-bff-token
+        - name: oauth-proxy-config
           configMap:
-            name: kong-bff-token
+            name: oauth-proxy-config
 ---
 kind: Service
 apiVersion: v1

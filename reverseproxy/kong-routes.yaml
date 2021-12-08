@@ -18,7 +18,7 @@ services:
     paths:
     - /api
   plugins:
-  - name: bff-token
+  - name: oauth-proxy
     config:
       encryption_key: aPdSgVkYp3s6v9y$B&E)H+MbQeThWmZq
       cookie_name_prefix: mycompany

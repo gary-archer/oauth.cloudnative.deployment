@@ -22,20 +22,20 @@ fi
 #
 # Ensure that we start clean
 #
-rm -rf resources/finalapi
+rm -rf finalapi
 
 #
 # Build the Node.js API
 #
 if [ "$API_TECH" == 'nodejs' ]; then
   
-  git clone https://github.com/gary-archer/oauth.apisample.nodejs resources/finalapi
+  git clone https://github.com/gary-archer/oauth.apisample.nodejs finalapi
   if [ $? -ne 0 ]; then
     echo '*** Node API download problem encountered'
     exit 1
   fi
   
-  cd resources/finalapi
+  cd finalapi
   npm install
   npm run buildRelease
   if [ $? -ne 0 ]; then
@@ -49,13 +49,13 @@ fi
 #
 if [ "$API_TECH" == 'netcore' ]; then
 
-  git clone https://github.com/gary-archer/oauth.apisample.netcore resources/finalapi
+  git clone https://github.com/gary-archer/oauth.apisample.netcore finalapi
   if [ $? -ne 0 ]; then
     echo '*** .NET API download problem encountered'
     exit 1
   fi
 
-  cd resources/finalapi
+  cd finalapi
   dotnet publish sampleapi.csproj -c Release -r linux-x64 --no-self-contained
   if [ $? -ne 0 ]; then
     echo '*** .NET API build problem encountered'
@@ -68,13 +68,13 @@ fi
 #
 if [ "$API_TECH" == 'java' ]; then
 
-  git clone https://github.com/gary-archer/oauth.apisample.javaspringboot resources/finalapi
+  git clone https://github.com/gary-archer/oauth.apisample.javaspringboot finalapi
   if [ $? -ne 0 ]; then
     echo '*** Java API download problem encountered'
     exit 1
   fi
 
-  cd resources/finalapi
+  cd finalapi
   mvn clean install
   if [ $? -ne 0 ]; then
     echo '*** Java API build problem encountered'
@@ -85,7 +85,7 @@ fi
 #
 # Build the Docker container
 #
-cp ../../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
+cp ../certs/default.svc.cluster.local.ca.pem ./trusted.ca.pem
 docker build --no-cache -f Dockerfile -t finalapi:v1 .
 if [ $? -ne 0 ]; then
   echo '*** API docker build problem encountered'
