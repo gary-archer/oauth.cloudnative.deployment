@@ -12,9 +12,9 @@ API_TECH='netcore'
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Deploy the web host
+# Deploy SPA resources
 #
-./webhost/deploy.sh
+./finalspa-scripts/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -22,7 +22,7 @@ fi
 #
 # Deploy the API
 #
-./api/deploy.sh "$API_TECH"
+./finalapi-scripts/deploy.sh "$API_TECH"
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -30,7 +30,7 @@ fi
 #
 # Deploy the token handler
 #
-./tokenhandler/deploy.sh
+./tokenhandler-scripts/deploy.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi

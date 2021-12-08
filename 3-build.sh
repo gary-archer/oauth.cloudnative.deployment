@@ -12,7 +12,7 @@ API_TECH='netcore'
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Build the web host
+# Build SPA resources
 #
 ./finalspa-scripts/build.sh
 if [ $? -ne 0 ]; then
