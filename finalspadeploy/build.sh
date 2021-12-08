@@ -13,8 +13,8 @@ cd ..
 #
 # Get the final web sample
 #
-rm -rf finalweb
-git clone https://github.com/gary-archer/oauth.websample.final finalweb
+rm -rf finalspa
+git clone https://github.com/gary-archer/oauth.websample.final finalspa
 if [ $? -ne 0 ]; then
   echo '*** Web sample download problem encountered'
   exit 1
@@ -23,7 +23,7 @@ fi
 #
 # Build Javascript bundles
 #
-cd finalweb/spa
+cd finalspa/spa
 npm install
 npm run buildRelease
 if [ $? -ne 0 ]; then
