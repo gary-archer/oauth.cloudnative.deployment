@@ -1,5 +1,5 @@
 .DS_Store
 certs
-apiconfig
-webhostconfig
-tokenhandlerconfig
+webhost
+finalapi
+tokenhandler

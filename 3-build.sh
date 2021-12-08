@@ -14,7 +14,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 #
 # Build the web host
 #
-./webhost/build.sh
+./webhostdeploy/build.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -22,7 +22,7 @@ fi
 #
 # Build the API
 #
-./api/build.sh "$API_TECH"
+./finalapideploy/build.sh "$API_TECH"
 if [ $? -ne 0 ]; then
   exit 1
 fi
@@ -30,7 +30,7 @@ fi
 #
 # Build the token handler
 #
-./tokenhandler/build.sh
+./tokenhandlerdeploy/build.sh
 if [ $? -ne 0 ]; then
   exit 1
 fi
