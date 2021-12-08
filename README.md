@@ -16,6 +16,7 @@ We will spin up a number of components for the Final SPA which run on these exte
 ## Prerequisites
 
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop) and [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- Configure the Docker Engine to use 16GB of RAM and 4 CPUs
 - Also ensure that `openssl`, `curl` and `jq` are installed
 
 ## Deploy the System
