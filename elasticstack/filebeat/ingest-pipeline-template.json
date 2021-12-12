@@ -1,0 +1,33 @@
+{
+    "description": "Curity Logs Ingest Pipeline",
+    "processors": [
+      {
+        "script": {
+          "lang": "painless",
+          "description": "Transform incoming data",
+          "source": "SCRIPTSOURCE"
+        },
+        "remove": {
+          "field": ["@timestamp", "endOfBatch", "instant", "log", "marker", "stream"],
+          "ignore_missing": true
+        }
+      }
+    ]
+  }
+
+  {
+    "description": "API Logs Ingest Pipeline for FileBeat",
+    "processors": [
+        {
+            "drop": {
+              "if" : "ctx.apiName == null"
+            },
+            "script": {
+              "source": "ctx._id = ctx.id"
+            },
+            "remove": {
+              "field": "@timestamp"
+            }
+        }
+    ]
+}

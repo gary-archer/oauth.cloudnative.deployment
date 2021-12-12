@@ -45,10 +45,16 @@ Then deploy apps to the Kubernetes cluster:
 ./4-deploy.sh
 ```
 
+Optionally also deploy Elastic Stack components in order to use end-to-end API logging:
+
+```bash
+./5-deploy-logging-system.sh
+```
+
 Later you can free all resources when required via this script:
 
 ```bash
-./5-teardown.sh
+./6-teardown.sh
 ```
 
 ## Enable Development URLs
@@ -72,6 +78,18 @@ Then sign in to the Single Page Application with these details:
 | SPA URL | https://web.mycompany.com/spa |
 | User Name | guestuser@mycompany.com |
 | User Password | GuestPassword1 |
+
+SCREENSHOT
+
+Also sign into Kibana with these details, and run queries from the [Technical Support Analysis](https://authguidance.com/2019/08/02/intelligent-api-platform-analysis/) blog post:
+
+| Field | Value |
+| ---------- | ----- |
+| Kibana URL | https://logs.mycompany.com |
+| User Name | guestuser@mycompany.com |
+| User Password | GuestPassword1 |
+
+SCREENSHOT
 
 ## View Kubernetes Resources
 

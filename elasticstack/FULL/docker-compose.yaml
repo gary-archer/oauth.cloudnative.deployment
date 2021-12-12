@@ -1,0 +1,45 @@
+elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    hostname: elastic.mycompany.internal
+    volumes:
+      - ./.build/certs/docker-internal/mycompany.internal.ssl.key:/usr/share/elasticsearch/config/certs/mycompany.internal.ssl.key
+      - ./.build/certs/docker-internal/mycompany.internal.ssl.pem:/usr/share/elasticsearch/config/certs/mycompany.internal.ssl.pem
+      - ./.build/certs/docker-internal/mycompany.internal.ca.pem:/usr/share/elasticsearch/config/certs/mycompany.internal.ca.pem
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: 'true'
+      xpack.security.audit.enabled: 'true'
+      xpack.security.http.ssl.enabled: 'true'
+      xpack.security.http.ssl.key: '/usr/share/elasticsearch/config/certs/mycompany.internal.ssl.key'
+      xpack.security.http.ssl.certificate: '/usr/share/elasticsearch/config/certs/mycompany.internal.ssl.pem'
+      xpack.security.http.ssl.certificate_authorities: '/usr/share/elasticsearch/config/certs/mycompany.internal.ca.pem'
+      ELASTIC_PASSWORD: 'Password1'
+
+kibana:
+    image: docker.elastic.co/kibana/kibana:7.14.0
+    hostname: kibana.mycompany.internal
+    volumes:
+      - ./.build/certs/docker-internal/mycompany.internal.ssl.key:/usr/share/kibana/config/certs/mycompany.internal.ssl.key
+      - ./.build/certs/docker-internal/mycompany.internal.ssl.pem:/usr/share/kibana/config/certs/mycompany.internal.ssl.pem
+      - ./.build/certs/docker-internal/mycompany.internal.ca.pem:/usr/share/kibana/config/certs/mycompany.internal.ca.pem
+    environment:
+      ELASTICSEARCH_HOSTS: https://elastic.mycompany.internal:9200
+      ELASTICSEARCH_USERNAME: 'elastic'
+      ELASTICSEARCH_PASSWORD: 'Password1'
+      ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES: '/usr/share/kibana/config/certs/mycompany.internal.ca.pem'
+      SERVER_SSL_ENABLED: 'true'
+      SERVER_SSL_KEY: '/usr/share/kibana/config/certs/mycompany.internal.ssl.key'
+      SERVER_SSL_CERTIFICATE: '/usr/share/kibana/config/certs/mycompany.internal.ssl.pem'
+      SERVER_SSL_CERTIFICATEAUTHORITIES: '/usr/share/kibana/config/certs/mycompany.internal.ca.pem'
+      SERVER_PUBLICBASEURL: https://logs.mycompany.com
+
+filebeat:
+    image: docker.elastic.co/beats/filebeat:7.14.0
+    hostname: filebeat.mycompany.internal
+    volumes:
+      - ./elastic-stack/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./.build/certs/docker-internal/mycompany.internal.ssl.key:/usr/share/filebeat/config/certs/mycompany.internal.ssl.key
+      - ./.build/certs/docker-internal/mycompany.internal.ssl.pem:/usr/share/filebeat/config/certs/mycompany.internal.ssl.pem
+      - ./.build/certs/docker-internal/mycompany.internal.ca.pem:/usr/share/filebeat/config/certs/mycompany.internal.ca.pem
+      - ./.deploy/logs/webproxyapi/:/var/log/webproxyapi
+      - ./.deploy/logs/sampleapi/:/var/log/sampleapi

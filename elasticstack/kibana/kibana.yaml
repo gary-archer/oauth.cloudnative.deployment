@@ -1,0 +1,64 @@
+#
+# The Kubernetes resources for the Kibana UI
+#
+kind: Service
+apiVersion: v1
+metadata:
+  name: kibana-svc
+spec:
+  selector:
+    app: kibana
+  ports:
+    - protocol: "TCP"
+      port: 5601
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  labels:
+    app: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+        - name: kibana
+          image: docker.elastic.co/kibana/kibana:7.15.0
+          env:
+            - name: ELASTICSEARCH_HOSTS
+              value: 'http://elastic-svc:9200'
+            - name: ELASTICSEARCH_USERNAME
+              value: 'elastic'
+            - name: ELASTICSEARCH_PASSWORD
+              value: 'Password1'
+            - name: SERVER_SSL_ENABLED
+              value: 'false'
+            - name: SERVER_PUBLICBASEURL
+              value: http://elastic.local
+          ports:
+            - containerPort: 5601
+              name: kibana
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibana-ingress
+spec:
+  rules:
+    - host: elastic.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kibana-svc
+                port:
+                  number: 5601
