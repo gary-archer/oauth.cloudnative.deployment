@@ -41,7 +41,7 @@ fi
 rm -rf oauth-proxy-plugin
 git clone https://github.com/curityio/oauth-proxy-plugin
 if [ $? -ne 0 ]; then
-  echo '*** Kong cookie decryption plugin download problem encountered'
+  echo '*** OAuth proxy plugin download problem encountered'
   exit 1
 fi
 
