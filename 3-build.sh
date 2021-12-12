@@ -39,13 +39,11 @@ fi
 # Download the OAuth proxy plugin to run in the reverse proxy
 #
 rm -rf oauth-proxy-plugin
-git clone https://github.com/curityio/kong-bff-plugin oauth-proxy-plugin
+git clone https://github.com/curityio/oauth-proxy-plugin
 if [ $? -ne 0 ]; then
   echo '*** Kong cookie decryption plugin download problem encountered'
   exit 1
 fi
-cd oauth-proxy-plugin
-git checkout feature/nginx-lua-oauth-proxy-plugin
 
 #
 # Indicate success
