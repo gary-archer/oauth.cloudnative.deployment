@@ -47,7 +47,7 @@ spec:
         - name: KONG_SSL_CERT
           value: '/etc/secrets/certs/tls.crt'
         - name: KONG_SSL_TRUSTED_CERTIFICATE
-          value: '/etc/secrets/certs/trusted.ca.pem'
+          value: '/etc/secrets/certs/ca.crt'
         - name: KONG_LUA_SSL_TRUSTED_CERTIFICATE
           value: '/etc/secrets/certs/ca.crt'
         - name: KONG_LOG_LEVEL

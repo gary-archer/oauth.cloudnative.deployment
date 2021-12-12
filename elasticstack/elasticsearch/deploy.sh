@@ -45,6 +45,16 @@ fi
 kubectl -n elasticstack rollout status deployment/elasticsearch
 
 #
+# TODO:
+# - Remote to the pod and check certs + other files
+# - See if I can use curl locally, else use network-multitool
+# - Understand anything I need for API key setup
+# - Then create the schema via kubectl (below)
+# - Do this with invalid data initially to ensure that error handling works
+#
+exit
+
+#
 # Create the schema
 #
 ELASTICSEARCHPOD=$(kubectl get pod -n elasticstack -o name | grep elasticsearch)
