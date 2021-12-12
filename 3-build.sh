@@ -4,7 +4,7 @@
 # This builds code into Docker containers ready for deploying
 #############################################################
 
-API_TECH='netcore'
+API_TECH='nodejs'
 
 #
 # Ensure that we are in the folder containing this script
