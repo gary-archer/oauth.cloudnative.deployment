@@ -10,16 +10,6 @@
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 #
-# Create the namespace for Elastic components
-#
-kubectl -n elasticstack delete -f namespace.yaml 2>/dev/null
-kubectl -n elasticstack apply  -f namespace.yaml
-if [ $? -ne 0 ]; then
-  echo '*** Elasticsearch namespace creation problem encountered'
-  exit 1
-fi
-
-#
 # Create a secret for the private key password of the certificate file cert-manager will create
 #
 kubectl -n elasticstack delete secret elasticsearch-pkcs12-password 2>/dev/null
@@ -40,23 +30,21 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Wait for it to become ready
-#
-kubectl -n elasticstack rollout status deployment/elasticsearch
-
-#
-# TODO:
-# - Remote to the pod and check certs + other files
-# - See if I can use curl locally, else use network-multitool
-# - Understand anything I need for API key setup
-# - Then create the schema via kubectl (below)
-# - Do this with invalid data initially to ensure that error handling works
+# TODO: use an init container
 #
 exit
+echo 'Waiting for the Elasticsearch service to come up ...'
+while [ "$(curl -k -s -o /dev/null -w ''%{http_code}'' -u "$ADMIN_USER:$ADMIN_PASSWORD" "$RESTCONF_BASE_URL?content=config")" != "200" ]; do
+  sleep 2
+done
 
 #
-# Create the schema
+# TODO: run create script
 #
-ELASTICSEARCHPOD=$(kubectl get pod -n elasticstack -o name | grep elasticsearch)
-kubectl -n elasticstack exec -it pod/$ELASTICSEARCHPOD -- bash \
-curl -u "elastic:Password1" https://elasticsearch-svc:9200
+HTTP_STATUS=$(curl -k -s -u "$ELASTIC_USER:$ELASTIC_PASSWORD" 'https://elasticsearch-svc:9200' \
+-o $RESPONSE_FILE -w '%{http_code}')
+if [ $HTTP_STATUS != '200' ]; then
+  echo "*** Problem encountered creating the Elasticsearch schema, status: $HTTP_STATUS"
+  cat $RESPONSE_FILE
+  exit 1
+fi

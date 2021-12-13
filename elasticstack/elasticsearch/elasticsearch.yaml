@@ -22,8 +22,8 @@ spec:
         name: elasticsearch-pkcs12-password
         key: password
 ---
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: elasticsearch
   labels:
@@ -39,27 +39,27 @@ spec:
         app: elasticsearch
     spec:
       containers:
-        - name: elasticsearch
-          image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-          env:
-            - name: discovery.type
-              value: 'single-node'
-            - name: xpack.security.enabled
-              value: 'true'
-            - name: xpack.security.http.ssl.enabled
-              value: 'true'
-            - name: xpack.security.http.ssl.keystore.path
-              value: '/usr/share/elasticsearch/config/certs/keystore.p12'
-            - name: xpack.security.http.ssl.keystore.password
-              value: 'Password1'
-            - name: xpack.security.http.ssl.certificate_authorities
-              value: '/usr/share/elasticsearch/config/certs/ca.pem'
-            - name: ELASTIC_PASSWORD
-              value: 'Password1'
-          volumeMounts:
-            - name: elasticsearch-ssl-cert
-              mountPath: /usr/share/elasticsearch/config/certs
-              readOnly: true
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+        env:
+          - name: discovery.type
+            value: 'single-node'
+          - name: xpack.security.enabled
+            value: 'true'
+          - name: xpack.security.http.ssl.enabled
+            value: 'true'
+          - name: xpack.security.http.ssl.keystore.path
+            value: '/usr/share/elasticsearch/config/certs/keystore.p12'
+          - name: xpack.security.http.ssl.keystore.password
+            value: 'Password1'
+          - name: xpack.security.http.ssl.certificate_authorities
+            value: '/usr/share/elasticsearch/config/certs/ca.crt'
+          - name: ELASTIC_PASSWORD
+            value: 'Password1'
+        volumeMounts:
+          - name: elasticsearch-ssl-cert
+            mountPath: /usr/share/elasticsearch/config/certs
+            readOnly: true
       volumes:
         - name: elasticsearch-ssl-cert
           secret:

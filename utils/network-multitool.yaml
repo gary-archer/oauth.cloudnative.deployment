@@ -2,8 +2,8 @@
 # A utility pod to ensure that curl, openssl etc are available for troubleshooting
 # https://github.com/Praqma/Network-MultiTool
 #
-apiVersion: apps/v1
 kind: DaemonSet
+apiVersion: apps/v1
 metadata:
   name: network-multitool
   labels:

@@ -39,11 +39,13 @@ fi
 # Download the OAuth proxy plugin to run in the reverse proxy
 #
 rm -rf oauth-proxy-plugin
-git clone https://github.com/curityio/oauth-proxy-plugin
+git clone https://github.com/curityio/nginx-lua-oauth-proxy-plugin oauth-proxy-plugin
 if [ $? -ne 0 ]; then
   echo '*** OAuth proxy plugin download problem encountered'
   exit 1
 fi
+cd oauth-proxy-plugin/plugin
+cp oauth-proxy.lua kong/access.lua
 
 #
 # Indicate success
