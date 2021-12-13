@@ -44,6 +44,8 @@ if [ $? -ne 0 ]; then
   echo '*** OAuth proxy plugin download problem encountered'
   exit 1
 fi
+cd oauth-proxy-plugin/plugin
+cp oauth-proxy.lua kong/access.lua
 
 #
 # Indicate success
