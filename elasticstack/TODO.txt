@@ -1,6 +1,7 @@
 SERVICE
 -------
-Do schema creation via an init container
+Do schema creation via a job
+Use environment variable / valueFrom / secretKeyRef
 
 UI
 --
@@ -12,6 +13,7 @@ Create test user
 FILEBEAT
 --------
 Filebeat to ship my logs
+Use work technique for dealing with script processor
 
 DATABASE
 --------
