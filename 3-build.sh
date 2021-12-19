@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#############################################################
-# This builds code into Docker containers ready for deploying
-#############################################################
+########################################################################
+# This builds application ode into Docker containers ready for deploying
+########################################################################
 
 API_TECH='nodejs'
 

@@ -12,9 +12,9 @@
     "logging": {
         "apiName": "SampleApi",
         "production": {
-            "level": "Info",
+            "level": "info",
             "performanceThresholdMilliseconds": 500,
-            "appenders": [
+            "transports": [
                 {
                     "type": "console",
                     "prettyPrint": false
@@ -22,17 +22,9 @@
             ]
         },
         "development": {
-            "level": "Info",
-            "appenders": [
-                {
-                    "type": "console"
-                }
-            ],
+            "level": "info",
             "overrideLevels": {
-                "Microsoft": "Warning",
-                "Microsoft.AspNetCore.Server.Kestrel": "Error",
-                "Microsoft.AspNetCore.DataProtection.KeyManagement": "Error",
-                "SampleApi.Plumbing.Security.CustomAuthenticationHandler": "Error"
+                "ClaimsCache": "info"
             }
         }
     },

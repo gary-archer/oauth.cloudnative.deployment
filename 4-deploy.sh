@@ -1,8 +1,8 @@
 #!/bin/bash
 
-############################################################
-# This deploys Docker containers into the Kubernetes cluster
-############################################################
+###############################################################################
+# This deploys Docker containers needed to run apps into the Kubernetes cluster 
+###############################################################################
 
 API_TECH='nodejs'
 
