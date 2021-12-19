@@ -1,5 +1,0 @@
-Extra fields possible in the ingestion remove processor:
-"remove": {
-          "field": ["@timestamp", "endOfBatch", "instant", "log", "marker", "stream"],
-          "ignore_missing": true
-        }

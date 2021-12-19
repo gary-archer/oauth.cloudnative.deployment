@@ -1,8 +1,6 @@
 #
 # Downloaded and adapted from https://www.elastic.co/guide/en/beats/filebeat/current/running-on-kubernetes.html
 #
-
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -30,9 +28,12 @@ data:
       ssl:
         certificate_authorities: ['/usr/share/filebeat/certs/ca.crt']
       
-    setup.ilm.enabled: false
-    setup.template.name: apilogs
-    setup.template.pattern: apilogs-*
+    setup:
+      ilm:
+        enabled: false
+      template:
+        name: apilogs
+        pattern: apilogs-*
 
     processors:
     - drop_fields:
