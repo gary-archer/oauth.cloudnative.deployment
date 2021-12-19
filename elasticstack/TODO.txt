@@ -1,7 +1,6 @@
 SERVICE
 -------
 Do schema creation via a job
-Use environment variable / valueFrom / secretKeyRef
 
 UI
 --
