@@ -21,14 +21,14 @@ data:
         add_error_key: false
 
     output.elasticsearch:
-      hosts: ["https://elasticsearch-svc:9200"]
+      hosts: ['https://elasticsearch-svc:9200']
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
       index: "apilogs-%{+yyyy.MM.dd}"
       pipelines:
       - pipeline: apilogs
       ssl:
-      - certificate_authorities: ["/usr/share/filebeat/certs/ca.crt"]
+        certificate_authorities: ['/usr/share/filebeat/certs/ca.crt']
       
     setup.ilm.enabled: false
     setup.template.name: apilogs

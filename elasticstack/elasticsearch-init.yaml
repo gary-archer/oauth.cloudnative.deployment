@@ -134,10 +134,13 @@ spec:
                       "if" : "ctx.apiName == null"
                     },
                     "script": {
+                      "lang": "painless",
+                      "description": "Use a client side unique id to prevent duplicates",
                       "source": "ctx._id = ctx.id"
                     },
                     "remove": {
-                      "field": "@timestamp"
+                      "field": ["@timestamp", "log", "stream"],
+                      "ignore_missing": true
                     }
                   }
                 ]
