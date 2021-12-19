@@ -1,10 +1,11 @@
 # Cloud Native Deployment
 
-Resources for deploying code samples to Kubernetes on a development computer.
+Resources for deploying an End-to-End SPA and API code sample to Kubernetes on a development computer.\
+The goal is to enable portable code running in a portable deployment setup and with the best capabilities.
 
 ## External URLs
 
-We will spin up a number of components for the Final SPA which run on these external URLs:
+Scripts will spin up a number of components for the Final SPA, and these external URLs will be used:
 
 | Component | External URL | Description |
 | --------- | ------------ | ----------- |
@@ -12,12 +13,14 @@ We will spin up a number of components for the Final SPA which run on these exte
 | Reverse Proxy | https://api.mycompany.com | The base URL for the reverse proxy that sits in front of APIs |
 | Token Handler | https://api.mycompany.com/tokenhandler | The SPA calls the token handler via the reverse proxy to perform OAuth work |
 | Business API | https://api.mycompany.com/api | The SPA calls the business API via the reverse proxy to get data |
+| Log Query UI | https://logs.mycompany.com/app/dev_tools#/console | The Kibana UI used to analyze technical support logs |
 
 ## Prerequisites
 
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop) and [Kubernetes in Docker](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - Configure the Docker Engine to use 16GB of RAM and 4 CPUs
-- Also ensure that `openssl`, `curl` and `jq` are installed
+- Also ensure that the `openssl`, `curl` and `jq` tools are installed
+- Scripts should be run from either a macOS terminal or from a Windows Git Bash shell
 
 ## Deploy the System
 
@@ -27,7 +30,7 @@ First create the cluster:
 ./1-create-cluster.sh
 ```
 
-Then create SSL certificates for inside and outside the cluster:
+Then create external SSL certificates and set up a Private PKI for inside the cluster:
 
 ```bash
 ./2-create-certs.sh
@@ -45,7 +48,7 @@ Then deploy apps to the Kubernetes cluster:
 ./4-deploy.sh
 ```
 
-Optionally also deploy Elastic Stack components in order to use end-to-end API logging:
+Optionally deploy Elastic Stack components in order to use end-to-end API logging:
 
 ```bash
 ./5-deploy-elasticstack.sh
@@ -85,7 +88,7 @@ Also sign into Kibana with these details, and run queries from the [Technical Su
 
 | Field | Value |
 | ---------- | ----- |
-| Kibana URL | https://logs.mycompany.com |
+| Kibana URL | https://logs.mycompany.com/app/dev_tools#/console |
 | User Name | elastic |
 | User Password | Password1 |
 
@@ -93,7 +96,7 @@ Also sign into Kibana with these details, and run queries from the [Technical Su
 
 ## View Kubernetes Resources
 
-The deployment aims for a real world setup for a development computer, with multiple nodes:
+The deployment aims for a real world setup for a development computer, with multiple worker nodes:
 
 ```text
 kubectl get nodes:
@@ -104,7 +107,7 @@ oauth-worker          Ready    <none>                 15m   v1.21.1
 oauth-worker2         Ready    <none>                 15m   v1.21.1
 ```
 
-Application containers run on worker nodes within a `deployed` namespace:
+Each worker node hosts application containers within a `deployed` namespace:
 
 ```text
 kubectl get pods -o wide -n deployed
@@ -121,7 +124,7 @@ webhost-5f76fdcf46-lwsdb       1/1     Running   0          87s   10.244.2.6   o
 webhost-5f76fdcf46-zsxr9       1/1     Running   0          87s   10.244.1.5   oauth-worker 
 ```
 
-Elastic Stack containers run on worker nodes within an `elasticstack` namespace:
+Each worker node also hosts Elastic Stack containers within an `elasticstack` namespace:
 
 ```text
 kubectl get pods -o wide -n elasticstack
