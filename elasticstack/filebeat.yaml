@@ -1,33 +1,38 @@
+#
+# Downloaded and adapted from https://www.elastic.co/guide/en/beats/filebeat/current/running-on-kubernetes.html
+#
+
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: filebeat-config
-  namespace: default
   labels:
     k8s-app: filebeat
 data:
-  # The main filebeat configuration goes here
   filebeat.yml: |-
     filebeat.inputs:
     - type: container
       paths:
-        - /var/log/containers/curity-idsvr-runtime*.log
+        - /var/log/containers/finalapi*.log
+        - /var/log/containers/tokenhandler*.log
       json:
         keys_under_root: true
         add_error_key: false
 
     output.elasticsearch:
-      hosts: ['${ELASTICSEARCH_HOST:elasticsearch}:${ELASTICSEARCH_PORT:9200}']
+      hosts: ["https://elasticsearch-svc:9200"]
       username: ${ELASTICSEARCH_USERNAME}
       password: ${ELASTICSEARCH_PASSWORD}
-      index: "curitysystem-%{+yyyy.MM.dd}"
+      index: "apilogs-%{+yyyy.MM.dd}"
       pipelines:
-      - pipeline: curity-ingest-pipeline
-
+      - pipeline: apilogs
+      ssl:
+      - certificate_authorities: ["/usr/share/filebeat/certs/ca.crt"]
+      
     setup.ilm.enabled: false
-    setup.template.name: curitysystem
-    setup.template.pattern: curitysystem-*
+    setup.template.name: apilogs
+    setup.template.pattern: apilogs-*
 
     processors:
     - drop_fields:
@@ -37,7 +42,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: filebeat
-  namespace: default
   labels:
     k8s-app: filebeat
 spec:
@@ -55,32 +59,26 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
       - name: filebeat
-        image: docker.elastic.co/beats/filebeat:7.15.1
+        image: docker.elastic.co/beats/filebeat:7.16.2
         args: [
           "-c", "/etc/filebeat.yml",
           "-e",
         ]
         env:
         - name: ELASTICSEARCH_HOST
-          value: elastic-svc
+          value: elasticsearch-svc
         - name: ELASTICSEARCH_PORT
           value: "9200"
         - name: ELASTICSEARCH_USERNAME
           value: elastic
         - name: ELASTICSEARCH_PASSWORD
           value: Password1
-        - name: ELASTIC_CLOUD_ID
-          value:
-        - name: ELASTIC_CLOUD_AUTH
-          value:
         - name: NODE_NAME
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
         securityContext:
           runAsUser: 0
-          # If using Red Hat OpenShift uncomment this:
-          #privileged: true
         resources:
           limits:
             memory: 200Mi
@@ -100,6 +98,10 @@ spec:
         - name: varlog
           mountPath: /var/log
           readOnly: true
+        - name: root-cert
+          mountPath: /usr/share/filebeat/certs/ca.crt
+          readOnly: true
+          subPath: default.svc.cluster.local.ca.pem
       volumes:
       - name: config
         configMap:
@@ -117,6 +119,9 @@ spec:
           # When filebeat runs as non-root user, this directory needs to be writable by group (g+w).
           path: /var/lib/filebeat-data
           type: DirectoryOrCreate
+      - name: root-cert
+        secret:
+          secretName: filebeat-root-cert
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -125,7 +130,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: filebeat
-  namespace: default
+  namespace: kube-system
 roleRef:
   kind: ClusterRole
   name: filebeat
@@ -135,11 +140,9 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: filebeat
-  namespace: default
 subjects:
   - kind: ServiceAccount
     name: filebeat
-    namespace: default
 roleRef:
   kind: Role
   name: filebeat
@@ -149,11 +152,9 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: filebeat-kubeadm-config
-  namespace: default
 subjects:
   - kind: ServiceAccount
     name: filebeat
-    namespace: default
 roleRef:
   kind: Role
   name: filebeat-kubeadm-config
@@ -166,7 +167,7 @@ metadata:
   labels:
     k8s-app: filebeat
 rules:
-- apiGroups: [""] # "" indicates the core API group
+- apiGroups: [""]
   resources:
   - namespaces
   - pods
@@ -184,8 +185,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: filebeat
-  # should be the namespace where filebeat is running
-  namespace: default
   labels:
     k8s-app: filebeat
 rules:
@@ -199,7 +198,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: filebeat-kubeadm-config
-  namespace: default
   labels:
     k8s-app: filebeat
 rules:
@@ -214,6 +212,6 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: filebeat
-  namespace: default
   labels:
     k8s-app: filebeat
+

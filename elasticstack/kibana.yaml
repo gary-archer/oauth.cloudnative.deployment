@@ -41,17 +41,9 @@ spec:
       containers:
         - name: kibana
           image: docker.elastic.co/kibana/kibana:7.15.0
-          volumeMounts:
-          - name: kibana-ssl-cert
-            mountPath: /usr/share/kibana/config/certs
-            readOnly: true
-      volumes:
-        - name: kibana-ssl-cert
-          secret:
-            secretName: kibana-pkcs12
           env:
             - name: ELASTICSEARCH_HOSTS
-              value: 'https://elastic-svc:9200'
+              value: 'https://elasticsearch-svc:9200'
             - name: ELASTICSEARCH_USERNAME
               value: 'elastic'
             - name: ELASTICSEARCH_PASSWORD
@@ -67,8 +59,16 @@ spec:
             - name: ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES
               value: '/usr/share/kibana/config/certs/ca.crt'
           ports:
-            - containerPort: 5601
-              name: kibana
+          - containerPort: 5601
+            name: kibana
+          volumeMounts:
+          - name: kibana-ssl-cert
+            mountPath: /usr/share/kibana/config/certs
+            readOnly: true
+      volumes:
+        - name: kibana-ssl-cert
+          secret:
+            secretName: kibana-pkcs12
 ---
 kind: Service
 apiVersion: v1

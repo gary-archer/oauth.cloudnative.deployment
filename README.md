@@ -48,7 +48,7 @@ Then deploy apps to the Kubernetes cluster:
 Optionally also deploy Elastic Stack components in order to use end-to-end API logging:
 
 ```bash
-./5-deploy-logging-system.sh
+./5-deploy-elasticstack.sh
 ```
 
 Later you can free all resources when required via this script:
@@ -79,17 +79,17 @@ Then sign in to the Single Page Application with these details:
 | User Name | guestuser@mycompany.com |
 | User Password | GuestPassword1 |
 
-SCREENSHOT
+![SPA](./doc/spa.png)
 
 Also sign into Kibana with these details, and run queries from the [Technical Support Analysis](https://authguidance.com/2019/08/02/intelligent-api-platform-analysis/) blog post:
 
 | Field | Value |
 | ---------- | ----- |
 | Kibana URL | https://logs.mycompany.com |
-| User Name | guestuser@mycompany.com |
-| User Password | GuestPassword1 |
+| User Name | elastic |
+| User Password | Password1 |
 
-SCREENSHOT
+![Logs](./doc/logs.png)
 
 ## View Kubernetes Resources
 
@@ -119,4 +119,17 @@ tokenhandler-9fc86d5cc-lhqrs   1/1     Running   0          84s   10.244.1.7   o
 tokenhandler-9fc86d5cc-s8wws   1/1     Running   0          84s   10.244.2.8   oauth-worker2
 webhost-5f76fdcf46-lwsdb       1/1     Running   0          87s   10.244.2.6   oauth-worker2
 webhost-5f76fdcf46-zsxr9       1/1     Running   0          87s   10.244.1.5   oauth-worker 
+```
+
+Elastic Stack containers run on worker nodes within an `elasticstack` namespace:
+
+```text
+kubectl get pods -o wide -n elasticstack
+
+NAME                             READY   STATUS              RESTARTS   AGE     IP            NODE         
+elasticsearch-67f7d45c6f-khbmp   1/1     Running             0          2m43s   10.244.2.16   oauth-worker 
+es-initdata-job-lbnqv            0/1     Completed           0          2m42s   10.244.1.12   oauth-worker2
+filebeat-q5xw8                   1/1     Running             0          2m41s   172.29.0.2    oauth-worker 
+filebeat-skwbs                   1/1     Running             0          2m41s   172.29.0.3    oauth-worker2
+kibana-67fb658898-t2jdb          1/1     Running             0          2m42s   10.244.2.17   oauth-worker 
 ```

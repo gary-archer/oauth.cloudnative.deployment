@@ -30,7 +30,7 @@ spec:
             - name: ELASTICSEARCH_PASSWORD
               value: Password1
           command:
-            # Create the API logs schema
+            # Create the typed API logs schema, and also an ingestion pipeline to make minor adjustments to incoming data
             - /bin/sh
             - -c
             - |
@@ -125,13 +125,16 @@ spec:
                 }
               }
               '
-              curl -k -u elastic:$ELASTICSEARCH_PASSWORD -X PUT https://elasticsearch-svc:9200/_ingest/pipeline/apilogs-filebeat-ingest-pipeline -H 'Content-Type: application/json' -d '
+              curl -k -u elastic:$ELASTICSEARCH_PASSWORD -X PUT https://elasticsearch-svc:9200/_ingest/pipeline/apilogs -H 'Content-Type: application/json' -d '
               {
                 "description": "Ingest Pipeline for API Logs",
                 "processors": [
                   {
                     "drop": {
                       "if" : "ctx.apiName == null"
+                    },
+                    "script": {
+                      "source": "ctx._id = ctx.id"
                     },
                     "remove": {
                       "field": "@timestamp"
