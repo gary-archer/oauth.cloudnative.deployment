@@ -5,6 +5,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 - role: control-plane
+  # We can only run the ingress controller on a single node, so use the control plane
   kubeadmConfigPatches:
   - |
     kind: InitConfiguration
@@ -20,3 +21,6 @@ nodes:
     protocol: TCP
 - role: worker
 - role: worker
+networking:
+  # We will use Cilium for advanced networking capabilities, such as network policies
+  disableDefaultCNI: true
