@@ -60,11 +60,6 @@ Later you can free all resources when required via this script:
 ./6-teardown.sh
 ```
 
-## Open Issues
-
-At the time of writing there is sometimes a race condition in script 5 the first time you run it.\
-If you encounter an error indicating `elasticsearch-pkcs12 secret not found`, then run script 5 again.
-
 ## Enable Development URLs
 
 Update the hosts file with these development domain names:
